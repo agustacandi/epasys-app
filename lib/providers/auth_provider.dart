@@ -1,22 +1,31 @@
+import 'dart:io';
+
 import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {
-  late UserModel _user;
+  UserModel? _user;
 
-  UserModel get user => _user;
+  UserModel get user => _user!;
 
   set user(UserModel user) {
     _user = user;
     notifyListeners();
   }
 
-  Future<bool> register(String nama, String nim, String email, String alamat,
-      String password) async {
+  Future<bool> register(
+      String nama,
+      String nim,
+      String email,
+      String alamat,
+      String noHp,
+      String tanggalLahir,
+      String password,
+      String passwordConfirm) async {
     try {
-      UserModel user =
-          await AuthService().register(nama, email, nim, alamat, password);
+      UserModel user = await AuthService().register(nama, email, nim, alamat,
+          noHp, tanggalLahir, password, passwordConfirm);
 
       _user = user;
 
@@ -36,6 +45,24 @@ class AuthProvider with ChangeNotifier {
       return true;
     } catch (e) {
       print(e);
+      return false;
+    }
+  }
+
+  Future<bool> updateAvatar(File image, String token) async {
+    try {
+      UserModel user = await AuthService().updateAvatar(image, token);
+
+      print(user);
+
+      _user!.avatar = user.avatar;
+
+      print(_user);
+
+      return true;
+    } catch (e) {
+      print(e);
+      print('errornya di updateAvatar provider');
       return false;
     }
   }

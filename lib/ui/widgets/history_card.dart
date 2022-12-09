@@ -69,3 +69,43 @@ class HistoryCard extends StatelessWidget {
     );
   }
 }
+
+class EmptyHistoryCard extends StatelessWidget {
+  const EmptyHistoryCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 172,
+      decoration: BoxDecoration(
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+        border: Border.all(
+          color: greyColor2,
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.history,
+              size: 34,
+              color: blackColor,
+            ),
+            Text(
+              'Belum Ada Riwayat Parkir',
+              style: blackTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

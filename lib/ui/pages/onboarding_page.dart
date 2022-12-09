@@ -4,6 +4,7 @@ import 'package:epasys_app/ui/pages/home_page.dart';
 import 'package:epasys_app/ui/pages/main_page.dart';
 import 'package:epasys_app/ui/pages/sign_in_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -25,6 +26,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     'Tidak ribet, karena menggunakan\n smartphone.',
     'Lebih aman daripada menggunakan\n karcis parkir.',
   ];
+
+  Future<void> getStartedButton(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding', true);
+    if (!mounted) return;
+    index == 2
+        ? Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/sign-in',
+            (route) => false,
+          )
+        : carouselController.nextPage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,14 +202,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       height: 78,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        currentIndex == 2
-                            ? Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/sign-in',
-                                (route) => false,
-                              )
-                            : carouselController.nextPage();
+                      onTap: () async {
+                        await getStartedButton(currentIndex);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(14),

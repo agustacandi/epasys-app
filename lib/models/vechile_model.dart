@@ -1,10 +1,12 @@
+import 'package:epasys_app/models/user_model.dart';
+
 class VechileModel {
   int? id;
   String? merek;
   String? noPolisi;
   String? fotoKendaraan;
   String? fotoStnk;
-  String? idUser;
+  UserModel? user;
   int? createdAt;
   int? updatedAt;
 
@@ -14,7 +16,7 @@ class VechileModel {
     this.noPolisi,
     this.fotoKendaraan,
     this.fotoStnk,
-    this.idUser,
+    this.user,
     this.createdAt,
     this.updatedAt,
   });
@@ -25,7 +27,7 @@ class VechileModel {
     noPolisi = json['no_polisi'];
     fotoKendaraan = json['foto_kendaraan'];
     fotoStnk = json['foto_stnk'];
-    idUser = json['id_user'];
+    user = UserModel.fromJson(json['user']);
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -37,7 +39,7 @@ class VechileModel {
       'no_polisi': noPolisi,
       'foto_kendaraan': fotoKendaraan,
       'foto_stnk': fotoStnk,
-      'id_user': idUser,
+      'user': user,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };

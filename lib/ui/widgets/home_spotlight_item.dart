@@ -51,3 +51,46 @@ class HomeSpotlightItem extends StatelessWidget {
     );
   }
 }
+
+class EmptyBroadcastCard extends StatelessWidget {
+  const EmptyBroadcastCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 172,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
+      decoration: BoxDecoration(
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+        border: Border.all(
+          color: greyColor2,
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.event,
+              size: 34,
+              color: blackColor,
+            ),
+            Text(
+              'Belum Ada Broadcast',
+              style: blackTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

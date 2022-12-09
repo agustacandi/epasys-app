@@ -10,16 +10,18 @@ class CustomFormField extends StatelessWidget {
   final TextEditingController? controller;
   final IconData icon;
   final VoidCallback? onTap;
+  final bool readOnly;
 
   const CustomFormField({
     Key? key,
     required this.hintText,
+    required this.icon,
     this.obscureText = false,
     this.useSuffixIcon = false,
+    this.readOnly = false,
     this.controller,
     this.suffixIcon,
     this.suffixIcon2,
-    required this.icon,
     this.onTap,
   }) : super(key: key);
 
@@ -29,6 +31,7 @@ class CustomFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         TextFormField(
+          readOnly: readOnly,
           obscureText: obscureText,
           controller: controller,
           style: blackTextStyle.copyWith(

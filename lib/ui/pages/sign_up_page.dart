@@ -94,31 +94,31 @@ class _SignUpPageState extends State<SignUpPage> {
       setState(() {
         isLoading = true;
       });
+
       if (await authProvider.register(
           nameController.text,
-          nimController.text.toUpperCase(),
-          emailController.text.toLowerCase(),
+          nimController.text,
+          emailController.text,
           addressController.text,
-          passwordController.text)) {
+          phoneNumberController.text,
+          dateController.text,
+          passwordController.text,
+          passwordConfirmationController.text)) {
         Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/upload-avatar',
-          (route) => false,
-        );
+            context, '/upload-avatar', (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.red,
             content: Text(
-              'Failed register account',
+              'Failed to register',
               textAlign: TextAlign.center,
             ),
           ),
         );
       }
-
       setState(() {
-        isLoading = false;
+        isLoading = true;
       });
     }
 
@@ -180,7 +180,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 16,
           ),
           CustomFormField(
-            hintText: 'Phone Number',
+            hintText: 'Phone Number (+628XXX)',
             controller: phoneNumberController,
             icon: Icons.phone,
           ),
@@ -238,7 +238,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
             child: Text(
               'Back to Log In',

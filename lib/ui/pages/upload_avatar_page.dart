@@ -20,11 +20,12 @@ class UploadAvatarPage extends StatefulWidget {
 class _UploadAvatarPageState extends State<UploadAvatarPage> {
   File? _image;
   final _imageHelper = ImageHelper();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    // AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    // UserModel user = authProvider.user;
+    AuthProvider userProvider = Provider.of<AuthProvider>(context);
+    UserModel user = userProvider.user;
     return Scaffold(
       backgroundColor: lightBackgroundColor,
       body: Container(
@@ -81,7 +82,9 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            final files = await _imageHelper.pickImage();
+                            final files = await _imageHelper.pickImage(
+                              imageQuality: 50,
+                            );
                             if (files.isNotEmpty) {
                               final croppedFile = await _imageHelper.crop(
                                 file: files.first!,
@@ -92,7 +95,6 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
                                 setState(() {
                                   _image = File(croppedFile.path);
                                 });
-                                print(_image!.path);
                               }
                             }
                           },
@@ -123,7 +125,7 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
                     height: 24,
                   ),
                   Text(
-                    'Candi Agusta',
+                    '${user.nama}',
                     style: blackTextStyle.copyWith(
                       fontSize: 20,
                       fontWeight: bold,
@@ -133,7 +135,7 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
                     height: 5,
                   ),
                   Text(
-                    'E41212152',
+                    '${user.nim}',
                     style: greyTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -145,11 +147,39 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
                   Row(
                     children: [
                       Expanded(
-                        child: CustomButton(
-                          title: 'Upload',
-                          color: blueColor,
-                          onPressed: () async {},
-                        ),
+                        child: isLoading
+                            ? const LoadingButton()
+                            : CustomButton(
+                                title: 'Upload',
+                                color: blueColor,
+                                onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+
+                                  if (await userProvider.updateAvatar(
+                                      _image!, user.token!)) {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      '/main',
+                                      (route) => false,
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text(
+                                          'Failed to upload avatar',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                },
+                              ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -160,8 +190,10 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
                           textColor: greyColor,
                           color: lightBackgroundColor,
                           onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/main', (route) => false);
+                            isLoading
+                                ? null
+                                : Navigator.pushNamedAndRemoveUntil(
+                                    context, '/main', (route) => false);
                           },
                         ),
                       ),
@@ -175,137 +207,4 @@ class _UploadAvatarPageState extends State<UploadAvatarPage> {
       ),
     );
   }
-
-  // Widget headerSection() {
-  //   return Container(
-  //     margin: const EdgeInsets.only(top: 70),
-  //     padding: const EdgeInsets.symmetric(
-  //       horizontal: 24,
-  //     ),
-  //     width: double.infinity,
-  //     child: Column(
-  //       children: [
-  //         Text(
-  //           'Image Profile',
-  //           style: blackTextStyle.copyWith(
-  //             fontSize: 24,
-  //             fontWeight: bold,
-  //           ),
-  //         ),
-  //         const SizedBox(
-  //           height: 2,
-  //         ),
-  //         Text(
-  //           'Upload your image profile',
-  //           style: greyTextStyle.copyWith(
-  //             fontSize: 16,
-  //             fontWeight: semiBold,
-  //           ),
-  //         ),
-  //         const SizedBox(
-  //           height: 30,
-  //         ),
-  //         Container(
-  //           width: double.infinity,
-  //           padding: const EdgeInsets.all(16),
-  //           decoration: BoxDecoration(
-  //             color: whiteColor,
-  //             borderRadius: BorderRadius.circular(10),
-  //             border: Border.all(color: greyColor2),
-  //           ),
-  //           child: Column(
-  //             children: [
-  //               SizedBox(
-  //                 width: 100,
-  //                 height: 100,
-  //                 child: Stack(
-  //                   children: [
-  //                     CircleAvatar(
-  //                       backgroundColor: Colors.grey,
-  //                       foregroundImage: _image != null ? FileImage(_image.),
-  //                     )
-  //                     Align(
-  //                       alignment: Alignment.bottomRight,
-  //                       child: GestureDetector(
-  //                         onTap: () async {
-  //                           await getImage();
-  //                         },
-  //                         child: Container(
-  //                           width: 40,
-  //                           height: 40,
-  //                           decoration: BoxDecoration(
-  //                             shape: BoxShape.circle,
-  //                             color: blueColor,
-  //                             border: Border.all(
-  //                               color: whiteColor,
-  //                               width: 3,
-  //                             ),
-  //                           ),
-  //                           child: Icon(
-  //                             Icons.add,
-  //                             color: whiteColor,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 24,
-  //               ),
-  //               Text(
-  //                 'Candi Agusta',
-  //                 style: blackTextStyle.copyWith(
-  //                   fontSize: 20,
-  //                   fontWeight: bold,
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 5,
-  //               ),
-  //               Text(
-  //                 'E41212152',
-  //                 style: greyTextStyle.copyWith(
-  //                   fontSize: 16,
-  //                   fontWeight: semiBold,
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 24,
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   Expanded(
-  //                     child: CustomButton(
-  //                       title: 'Upload',
-  //                       color: blueColor,
-  //                       onPressed: () async {
-  //                         await getImage();
-  //                       },
-  //                     ),
-  //                   ),
-  //                   const SizedBox(
-  //                     width: 10,
-  //                   ),
-  //                   Expanded(
-  //                     child: CustomButton(
-  //                       title: 'Skip',
-  //                       textColor: greyColor,
-  //                       color: lightBackgroundColor,
-  //                       onPressed: () {
-  //                         Navigator.pushNamedAndRemoveUntil(
-  //                             context, '/main', (route) => false);
-  //                       },
-  //                     ),
-  //                   ),
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 }

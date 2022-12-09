@@ -1,5 +1,5 @@
 import 'package:epasys_app/shared/theme.dart';
-import 'package:epasys_app/ui/pages/account_page.dart';
+import 'package:epasys_app/ui/pages/account/account_page.dart';
 import 'package:epasys_app/ui/pages/history/history_page.dart';
 import 'package:epasys_app/ui/pages/home_page.dart';
 import 'package:epasys_app/ui/pages/qr/qr_page.dart';

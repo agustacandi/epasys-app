@@ -29,7 +29,7 @@ class UserModel {
     alamat = json['alamat'];
     noTelepon = json['no_telepon'];
     tanggalLahir = json['tanggal_lahir'];
-    avatar = json['avatar'];
+    avatar = json['avatar'] ?? '';
     token = json['token'];
   }
 

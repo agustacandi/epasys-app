@@ -2,6 +2,7 @@ import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/services/auth_service.dart';
 import 'package:epasys_app/shared/theme.dart';
+import 'package:epasys_app/ui/widgets/history_card.dart';
 import 'package:epasys_app/ui/widgets/home_menu_item.dart';
 import 'package:epasys_app/ui/widgets/home_spotlight_item.dart';
 import 'package:epasys_app/ui/widgets/home_transaction_item.dart';
@@ -63,33 +64,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget headerSection(UserModel user) {
-    handleLogOut() async {
-      setState(() {
-        isLoading = true;
-      });
-
-      if (await AuthService().logout(user.token!)) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/sign-in',
-          (route) => false,
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              'Logout failed',
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
-      }
-      setState(() {
-        isLoading = false;
-      });
-    }
-
     return Padding(
       padding: const EdgeInsets.only(
         left: 16,
@@ -118,17 +92,15 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: handleLogOut,
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/images/img_profile.png'),
-                ),
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                    'https://kelompok17stiebi.website/storage/${user.avatar}'),
               ),
             ),
           )
@@ -162,37 +134,38 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 12,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: const <Widget>[
-                SizedBox(
-                  width: 16,
-                ),
-                HomeSpotlightItem(
-                  imageUrl: 'assets/images/img_spotlight.png',
-                  title: 'Ditemukan kunci motor Ninja',
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                HomeSpotlightItem(
-                  imageUrl: 'assets/images/img_spotlight.png',
-                  title: 'Ditemukan dompet',
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                HomeSpotlightItem(
-                  imageUrl: 'assets/images/img_spotlight.png',
-                  title: 'Dies Natalis Polije ke-33 yahaha hayuk',
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-              ],
-            ),
-          ),
+          const EmptyBroadcastCard(),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Row(
+          //     children: const <Widget>[
+          //       SizedBox(
+          //         width: 16,
+          //       ),
+          //       HomeSpotlightItem(
+          //         imageUrl: 'assets/images/img_spotlight.png',
+          //         title: 'Ditemukan kunci motor Ninja',
+          //       ),
+          //       SizedBox(
+          //         width: 20,
+          //       ),
+          //       HomeSpotlightItem(
+          //         imageUrl: 'assets/images/img_spotlight.png',
+          //         title: 'Ditemukan dompet',
+          //       ),
+          //       SizedBox(
+          //         width: 20,
+          //       ),
+          //       HomeSpotlightItem(
+          //         imageUrl: 'assets/images/img_spotlight.png',
+          //         title: 'Dies Natalis Polije ke-33 yahaha hayuk',
+          //       ),
+          //       SizedBox(
+          //         width: 16,
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -265,30 +238,30 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 12,
           ),
-          Container(
-            padding: const EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: greyColor2,
-              ),
-            ),
-            child: Column(
-              children: const <Widget>[
-                HomeTransactionItem(
-                    iconUrl: 'assets/images/img_checkout.png',
-                    title: 'Scoopy',
-                    time: '11:00',
-                    vechileName: 'N 111 GA'),
-                HomeTransactionItem(
-                    iconUrl: 'assets/images/img_checkin.png',
-                    title: 'Scoopy',
-                    time: '07:00',
-                    vechileName: 'N 111 GA'),
-              ],
-            ),
-          ),
+          const EmptyHistoryCard(),
+          //     color: whiteColor,
+          //     borderRadius: BorderRadius.circular(10),
+          //     border: Border.all(
+          //       color: greyColor2,
+          //     ),
+          //   ),
+          //   child: Column(
+          //     children: const <Widget>[
+          //       HomeTransactionItem(
+          //         iconUrl: 'assets/images/img_checkout.png',
+          //         title: 'Scoopy',
+          //         time: '11:00',
+          //         vechileName: 'N 111 GA',
+          //       ),
+          //       HomeTransactionItem(
+          //         iconUrl: 'assets/images/img_checkin.png',
+          //         title: 'Scoopy',
+          //         time: '07:00',
+          //         vechileName: 'N 111 GA',
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
