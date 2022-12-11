@@ -104,18 +104,17 @@ class _HistoryPageState extends State<HistoryPage> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
-                      HistoryCard(),
+                      HistoryCard(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/detail-history',
+                          );
+                        },
+                      ),
+                      HistoryCard(
+                        onTap: () {},
+                      ),
                     ],
                   ),
                 ),

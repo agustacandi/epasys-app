@@ -1,18 +1,20 @@
+import 'package:epasys_app/models/employee_model.dart';
+
 class BroadcastModel {
   int? id;
   String? judul;
   String? body;
   String? imgUrl;
-  String? idKaryawan;
-  int? createdAt;
-  int? updatedAt;
+  EmployeeModel? employee;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   BroadcastModel({
     this.id,
     this.judul,
     this.body,
     this.imgUrl,
-    this.idKaryawan,
+    this.employee,
     this.createdAt,
     this.updatedAt,
   });
@@ -22,9 +24,9 @@ class BroadcastModel {
     judul = json['judul'];
     body = json['body'];
     imgUrl = json['img_url'];
-    idKaryawan = json['id_karyawan'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    employee = EmployeeModel.fromJson(json['employee']);
+    createdAt = DateTime.parse(json['created_at']);
+    updatedAt = DateTime.parse(json['updated_at']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +35,7 @@ class BroadcastModel {
       'judul': judul,
       'body': body,
       'img_url': imgUrl,
-      'id_karyawan': idKaryawan,
+      'employee': employee!,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };

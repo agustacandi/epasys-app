@@ -2,10 +2,10 @@ class EmployeeModel {
   int? id;
   String? nama;
   String? email;
-  String? avatar;
   String? role;
-  String? noTelepon;
   String? alamat;
+  String? noTelepon;
+  String? avatar;
   String? token;
 
   EmployeeModel({

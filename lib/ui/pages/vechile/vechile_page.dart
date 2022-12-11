@@ -9,7 +9,12 @@ class VechilePage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/add-vechile',
+          );
+        },
         child: const Icon(Icons.add),
       ),
       body: Stack(
@@ -101,7 +106,64 @@ class VechilePage extends StatelessWidget {
                     bottom: 24,
                   ),
                   child: Column(
-                    children: <Widget>[],
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(
+                            color: greyColor2,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: lightBlueColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/images/ic_logo.png',
+                                  width: 30,
+                                  height: 30,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Motor Mogeku',
+                                  style: blackTextStyle,
+                                ),
+                                Text(
+                                  'Yamaha R15 - N116GA',
+                                  style: greyTextStyle,
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              icon: Icon(Icons.arrow_forward_ios_rounded),
+                              onPressed: () {},
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),

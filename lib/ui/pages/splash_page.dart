@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/providers/broadcast_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
@@ -20,15 +22,39 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   getData() async {
+    await Provider.of<BroadcastProvider>(context, listen: false)
+        .getBroadcasts();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? onboarding = prefs.getBool('onboarding');
-    Timer(
-      const Duration(seconds: 3),
-      () => Navigator.pushNamedAndRemoveUntil(
+    final String? token = prefs.getString('token');
+
+    if (onboarding!) {
+      if (token.runtimeType != Null) {
+        if (!mounted) return;
+        await Provider.of<AuthProvider>(context, listen: false)
+            .getCurrentUser(token!);
+        if (!mounted) return;
+        Navigator.pushNamedAndRemoveUntil(
           context,
-          onboarding.runtimeType != Null ? '/sign-in' : '/on-boarding',
-          (route) => false),
-    );
+          '/main',
+          (route) => false,
+        );
+      } else {
+        if (!mounted) return;
+
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/sign-in',
+          (route) => false,
+        );
+      }
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/onboarding',
+        (route) => false,
+      );
+    }
   }
 
   @override

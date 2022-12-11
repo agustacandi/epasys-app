@@ -31,9 +31,37 @@ class _QRPageState extends State<QRPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                '/check-in',
+              ),
+              child: Container(
+                width: 250,
+                height: 200,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  border: Border.all(
+                    color: greyColor2,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                    10,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    'Check In',
+                  ),
+                ),
+              ),
+            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             Container(
-              width: 150,
-              height: 150,
+              width: 250,
+              height: 200,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: whiteColor,
@@ -44,21 +72,9 @@ class _QRPageState extends State<QRPage> {
                   10,
                 ),
               ),
-            ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            Container(
-              width: 150,
-              height: 150,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                border: Border.all(
-                  color: greyColor2,
-                ),
-                borderRadius: BorderRadius.circular(
-                  10,
+              child: Center(
+                child: Text(
+                  'Check Out',
                 ),
               ),
             ),

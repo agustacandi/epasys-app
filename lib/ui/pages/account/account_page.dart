@@ -6,6 +6,7 @@ import 'package:epasys_app/ui/widgets/account_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -26,6 +27,12 @@ class _AccountPageState extends State<AccountPage> {
       });
 
       if (await AuthService().logout(user.token!)) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String? token = prefs.getString('token');
+        if (token.runtimeType != Null) {
+          await prefs.remove('token');
+        }
+        if (!mounted) return;
         Navigator.pop(context);
         Navigator.pushNamedAndRemoveUntil(
           context,

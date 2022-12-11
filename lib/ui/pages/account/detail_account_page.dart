@@ -36,7 +36,12 @@ class _DetailAccountPageState extends State<DetailAccountPage> {
       backgroundColor: lightBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Account Detail'),
+        title: Text(
+          'Account Detail',
+          style: whiteTextStyle.copyWith(
+            fontWeight: bold,
+          ),
+        ),
       ),
       body: SafeArea(
         bottom: false,

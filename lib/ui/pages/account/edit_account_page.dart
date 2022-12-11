@@ -41,6 +41,9 @@ class _EditAccountPageState extends State<EditAccountPage> {
         centerTitle: true,
         title: Text(
           'Edit Account',
+          style: whiteTextStyle.copyWith(
+            fontWeight: bold,
+          ),
         ),
       ),
       body: SafeArea(

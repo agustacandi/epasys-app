@@ -40,6 +40,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         : carouselController.nextPage();
   }
 
+  initiatePrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding', false);
+  }
+
+  @override
+  void initState() {
+    initiatePrefs();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

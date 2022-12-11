@@ -87,6 +87,9 @@ class _SignInPageState extends State<SignInPage> {
 
       if (await authProvider.login(
           nimController.text.toUpperCase(), passwordController.text)) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', 'Bearer ${authProvider.user.token!}');
+        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/main',
@@ -129,6 +132,8 @@ class _SignInPageState extends State<SignInPage> {
             obscureText: obscureText,
             controller: passwordController,
             icon: Icons.password,
+            suffixIcon: Icons.visibility_off,
+            suffixIcon2: Icons.visibility,
             useSuffixIcon: true,
             onTap: () {
               setState(() {

@@ -28,7 +28,7 @@ class AuthProvider with ChangeNotifier {
           noHp, tanggalLahir, password, passwordConfirm);
 
       _user = user;
-
+      notifyListeners();
       return true;
     } catch (e) {
       print(e);
@@ -41,7 +41,7 @@ class AuthProvider with ChangeNotifier {
       UserModel user = await AuthService().login(nim, password);
 
       _user = user;
-
+      notifyListeners();
       return true;
     } catch (e) {
       print(e);
@@ -56,6 +56,7 @@ class AuthProvider with ChangeNotifier {
       print(user);
 
       _user!.avatar = user.avatar;
+      notifyListeners();
 
       print(_user);
 
@@ -64,6 +65,18 @@ class AuthProvider with ChangeNotifier {
       print(e);
       print('errornya di updateAvatar provider');
       return false;
+    }
+  }
+
+  Future<void> getCurrentUser(String token) async {
+    try {
+      UserModel user = await AuthService().getCurrentUser(token);
+      print(user);
+      _user = user;
+      _user!.token = token;
+      notifyListeners();
+    } catch (e) {
+      print('Error getCurrentUser in AuthProvider : $e');
     }
   }
 }

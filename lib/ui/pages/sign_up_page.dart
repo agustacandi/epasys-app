@@ -200,6 +200,8 @@ class _SignUpPageState extends State<SignUpPage> {
             obscureText: obscureText,
             controller: passwordController,
             icon: Icons.password,
+            suffixIcon: Icons.visibility_off,
+            suffixIcon2: Icons.visibility,
             useSuffixIcon: true,
             onTap: () {
               setState(() {
@@ -215,6 +217,8 @@ class _SignUpPageState extends State<SignUpPage> {
             obscureText: obscureText2,
             controller: passwordConfirmationController,
             icon: Icons.password,
+            suffixIcon: Icons.visibility_off,
+            suffixIcon2: Icons.visibility,
             useSuffixIcon: true,
             onTap: () {
               setState(() {

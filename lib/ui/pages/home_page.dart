@@ -1,5 +1,6 @@
 import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/providers/broadcast_provider.dart';
 import 'package:epasys_app/services/auth_service.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/history_card.dart';
@@ -22,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
+    BroadcastProvider broadcastProvider =
+        Provider.of<BroadcastProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -50,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    spotlightSection(),
+                    spotlightSection(broadcastProvider),
                     otherMenusSection(),
                     latestHistorySection(),
                   ],
@@ -109,7 +112,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget spotlightSection() {
+  Widget spotlightSection(BroadcastProvider broadcastProvider) {
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
@@ -134,38 +137,20 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 12,
           ),
-          const EmptyBroadcastCard(),
-          // SingleChildScrollView(
-          //   scrollDirection: Axis.horizontal,
-          //   child: Row(
-          //     children: const <Widget>[
-          //       SizedBox(
-          //         width: 16,
-          //       ),
-          //       HomeSpotlightItem(
-          //         imageUrl: 'assets/images/img_spotlight.png',
-          //         title: 'Ditemukan kunci motor Ninja',
-          //       ),
-          //       SizedBox(
-          //         width: 20,
-          //       ),
-          //       HomeSpotlightItem(
-          //         imageUrl: 'assets/images/img_spotlight.png',
-          //         title: 'Ditemukan dompet',
-          //       ),
-          //       SizedBox(
-          //         width: 20,
-          //       ),
-          //       HomeSpotlightItem(
-          //         imageUrl: 'assets/images/img_spotlight.png',
-          //         title: 'Dies Natalis Polije ke-33 yahaha hayuk',
-          //       ),
-          //       SizedBox(
-          //         width: 16,
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          broadcastProvider.broadcasts.isEmpty
+              ? const EmptyBroadcastCard()
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: broadcastProvider.broadcasts
+                        .map(
+                          (broadcast) => HomeSpotlightItem(
+                            broadcast: broadcast,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
         ],
       ),
     );

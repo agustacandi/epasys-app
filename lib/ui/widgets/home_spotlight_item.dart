@@ -1,53 +1,76 @@
+import 'package:epasys_app/models/broadcast_model.dart';
 import 'package:epasys_app/shared/theme.dart';
+import 'package:epasys_app/ui/pages/broadcast_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeSpotlightItem extends StatelessWidget {
-  final String imageUrl;
-  final String title;
+  final BroadcastModel broadcast;
 
   const HomeSpotlightItem({
     Key? key,
-    required this.imageUrl,
-    required this.title,
+    required this.broadcast,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 172,
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: greyColor2,
+    return Row(
+      children: [
+        const SizedBox(
+          width: 16,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(10),
-            ),
-            child: Image.asset(
-              imageUrl,
-              width: 200,
-              height: 108,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              title,
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: semiBold,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BroadcastDetailPage(
+                  broadcast: broadcast,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            width: 200,
+            height: 172,
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: greyColor2,
               ),
             ),
-          )
-        ],
-      ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(10),
+                  ),
+                  child: Image.network(
+                    'https://kelompok17stiebi.website/storage/${broadcast.imgUrl!}',
+                    width: 200,
+                    height: 108,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    broadcast.judul!,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 16,
+        ),
+      ],
     );
   }
 }

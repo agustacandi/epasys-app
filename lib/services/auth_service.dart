@@ -110,6 +110,23 @@ class AuthService {
     return user;
   }
 
+  Future<UserModel> getCurrentUser(String token) async {
+    String url = '$baseUrl/user';
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+    var response = await http.get(Uri.parse(url), headers: headers);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+      UserModel user = UserModel.fromJson(data);
+      return user;
+    } else {
+      throw 'Error getCurrent User in AuthService: Gagal mendapatkan data user';
+    }
+  }
+
   // Future<UserModel> updateProfile(String token) async {
   //   String url = '$baseUrl/users';
   //   var headers = {
