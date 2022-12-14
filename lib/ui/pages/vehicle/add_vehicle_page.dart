@@ -1,14 +1,14 @@
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
 
-class AddVechilePage extends StatefulWidget {
-  const AddVechilePage({super.key});
+class AddVehiclePage extends StatefulWidget {
+  const AddVehiclePage({super.key});
 
   @override
-  State<AddVechilePage> createState() => _AddVechilePageState();
+  State<AddVehiclePage> createState() => _AddVehiclePageState();
 }
 
-class _AddVechilePageState extends State<AddVechilePage> {
+class _AddVehiclePageState extends State<AddVehiclePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -6,6 +6,8 @@ class EmployeeModel {
   String? alamat;
   String? noTelepon;
   String? avatar;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   String? token;
 
   EmployeeModel({
@@ -16,6 +18,8 @@ class EmployeeModel {
     this.role,
     this.noTelepon,
     this.alamat,
+    this.createdAt,
+    this.updatedAt,
     this.token,
   });
 
@@ -27,6 +31,8 @@ class EmployeeModel {
     role = json['role'];
     noTelepon = json['no_telepon'];
     alamat = json['alamat'];
+    createdAt = DateTime.parse(json['created_at']);
+    updatedAt = DateTime.parse(json['updated_at']);
     token = json['token'];
   }
 
@@ -39,6 +45,8 @@ class EmployeeModel {
       'role': role,
       'no_telepon': noTelepon,
       'alamat': alamat,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
       'token': token,
     };
   }

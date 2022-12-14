@@ -1,8 +1,33 @@
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
 
-class VechilePage extends StatelessWidget {
-  const VechilePage({Key? key}) : super(key: key);
+class VehiclePage extends StatefulWidget {
+  const VehiclePage({Key? key}) : super(key: key);
+
+  @override
+  State<VehiclePage> createState() => _VehiclePageState();
+}
+
+class _VehiclePageState extends State<VehiclePage> {
+  bool isLoading = false;
+
+  getVehicles() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    setState(() {
+      isLoading = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      getVehicles();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

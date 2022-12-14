@@ -79,4 +79,28 @@ class AuthProvider with ChangeNotifier {
       print('Error getCurrentUser in AuthProvider : $e');
     }
   }
+
+  Future<bool> updateProfile(
+    String nama,
+    String nim,
+    String tanggalLahir,
+    String alamat,
+    String noHp,
+    String email,
+    File? image,
+    String token,
+  ) async {
+    try {
+      UserModel user = await AuthService().updateProfile(
+          nama, nim, tanggalLahir, alamat, noHp, email, image, token);
+
+      _user = user;
+      _user!.token = token;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print('Error updateProfile in AuthProvider : $e');
+      return false;
+    }
+  }
 }

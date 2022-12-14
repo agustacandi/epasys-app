@@ -108,6 +108,7 @@ class _BroadcastDetailPageState extends State<BroadcastDetailPage> {
                     ),
                     Text(
                       widget.broadcast.body!,
+                      style: blackTextStyle,
                     ),
                   ],
                 ),

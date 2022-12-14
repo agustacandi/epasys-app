@@ -1,12 +1,9 @@
-import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/broadcast_provider.dart';
-import 'package:epasys_app/services/auth_service.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/history_card.dart';
 import 'package:epasys_app/ui/widgets/home_menu_item.dart';
 import 'package:epasys_app/ui/widgets/home_spotlight_item.dart';
-import 'package:epasys_app/ui/widgets/home_transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,11 +18,6 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    UserModel user = authProvider.user;
-    BroadcastProvider broadcastProvider =
-        Provider.of<BroadcastProvider>(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -43,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Column(
             children: <Widget>[
-              headerSection(user),
+              headerSection(),
               Container(
                 decoration: BoxDecoration(
                   color: lightBackgroundColor,
@@ -53,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    spotlightSection(broadcastProvider),
+                    spotlightSection(),
                     otherMenusSection(),
                     latestHistorySection(),
                   ],
@@ -66,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget headerSection(UserModel user) {
+  Widget headerSection() {
     return Padding(
       padding: const EdgeInsets.only(
         left: 16,
@@ -74,84 +66,88 @@ class _HomePageState extends State<HomePage> {
         right: 16,
         bottom: 50,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Selamat Datang,',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 16,
+      child: Consumer<AuthProvider>(
+        builder: (context, value, child) => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Selamat Datang,',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-              Text(
-                '${user.nama}.',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: bold,
+                Text(
+                  '${value.user.nama}.',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: bold,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    'https://kelompok17stiebi.website/storage/${user.avatar}'),
-              ),
+              ],
             ),
-          )
-        ],
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      'https://kelompok17stiebi.website/storage/${value.user.avatar}'),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 
-  Widget spotlightSection(BroadcastProvider broadcastProvider) {
+  Widget spotlightSection() {
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              const SizedBox(
-                width: 16,
-              ),
-              Text(
-                'Broadcast',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: bold,
+      child: Consumer<BroadcastProvider>(
+        builder: (context, value, child) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                const SizedBox(
+                  width: 16,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          broadcastProvider.broadcasts.isEmpty
-              ? const EmptyBroadcastCard()
-              : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: broadcastProvider.broadcasts
-                        .map(
-                          (broadcast) => HomeSpotlightItem(
-                            broadcast: broadcast,
-                          ),
-                        )
-                        .toList(),
+                Text(
+                  'Broadcast',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: bold,
                   ),
                 ),
-        ],
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            value.broadcasts.isEmpty
+                ? const EmptyBroadcastCard()
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: value.broadcasts
+                          .map(
+                            (broadcast) => HomeSpotlightItem(
+                              broadcast: broadcast,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }
@@ -178,20 +174,28 @@ class _HomePageState extends State<HomePage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const <Widget>[
+            children: <Widget>[
               HomeMenuItem(
+                onTap: () {
+                  Navigator.pushNamed(context, '/teknisi');
+                },
                 iconUrl: 'assets/images/img_teknisi.png',
                 menuName: 'Teknisi',
               ),
               HomeMenuItem(
+                onTap: () {
+                  Navigator.pushNamed(context, '/satpam');
+                },
                 iconUrl: 'assets/images/img_satpam.png',
                 menuName: 'Satpam',
               ),
               HomeMenuItem(
+                onTap: () {},
                 iconUrl: 'assets/images/img_informasi.png',
                 menuName: 'Informasi',
               ),
               HomeMenuItem(
+                onTap: () {},
                 iconUrl: 'assets/images/img_faq.png',
                 menuName: 'FAQ',
               ),

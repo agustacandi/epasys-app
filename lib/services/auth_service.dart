@@ -127,13 +127,86 @@ class AuthService {
     }
   }
 
-  // Future<UserModel> updateProfile(String token) async {
-  //   String url = '$baseUrl/users';
-  //   var headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': token,
-  //   };
+  Future<UserModel> updateProfile(
+    String nama,
+    String nim,
+    String tanggalLahir,
+    String alamat,
+    String noHp,
+    String email,
+    File? image,
+    String token,
+  ) async {
+    String url = '$baseUrl/users';
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
 
-  //   var body = jsonEncode({'nama': 'aswas'});
-  // }
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    request.headers.addAll(headers);
+
+    if (nama != '') {
+      request.fields['nama'] = nama;
+    }
+    if (nim != '') {
+      request.fields['nim'] = nim;
+    }
+    if (tanggalLahir != '') {
+      request.fields['tanggal_lahir'] = tanggalLahir;
+    }
+    if (alamat != '') {
+      request.fields['alamat'] = alamat;
+    }
+    if (noHp != '') {
+      request.fields['no_telepon'] = noHp;
+    }
+    if (email != '') {
+      request.fields['email'] = email;
+    }
+    if (image != null) {
+      request.files
+          .add(await http.MultipartFile.fromPath('avatar', image.path));
+    }
+
+    var response = await request.send().then(
+          (result) => http.Response.fromStream(result).then(
+            (response) {
+              if (response.statusCode == 200) {
+                // print({"asdads", user});
+                return response;
+              } else {
+                // print("Error during connection to server");
+                print(response.body);
+              }
+            },
+          ),
+        );
+
+    var data = jsonDecode(response!.body)['data'];
+    UserModel user = UserModel.fromJson(data);
+    return user;
+  }
+
+  Future<bool> changePasswordUser(
+      String password, String confirmPassword, String token) async {
+    String url = '$baseUrl/users/password';
+    var headers = {
+      'Authorization': token,
+    };
+    var body = {
+      'password': password,
+      'password_confirmation': confirmPassword,
+    };
+
+    var response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

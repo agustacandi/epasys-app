@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/broadcast_provider.dart';
+import 'package:epasys_app/providers/employee_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
     final bool? onboarding = prefs.getBool('onboarding');
     final String? token = prefs.getString('token');
 
-    if (onboarding!) {
+    if (onboarding.runtimeType != Null) {
       if (token.runtimeType != Null) {
         if (!mounted) return;
         await Provider.of<AuthProvider>(context, listen: false)
@@ -49,9 +50,10 @@ class _SplashPageState extends State<SplashPage> {
         );
       }
     } else {
+      if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/onboarding',
+        '/on-boarding',
         (route) => false,
       );
     }

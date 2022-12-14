@@ -1,16 +1,16 @@
 import 'package:epasys_app/models/user_model.dart';
 
-class VechileModel {
+class VehicleModel {
   int? id;
   String? merek;
   String? noPolisi;
   String? fotoKendaraan;
   String? fotoStnk;
   UserModel? user;
-  int? createdAt;
-  int? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  VechileModel({
+  VehicleModel({
     this.id,
     this.merek,
     this.noPolisi,
@@ -21,15 +21,15 @@ class VechileModel {
     this.updatedAt,
   });
 
-  VechileModel.fromJson(Map<String, dynamic> json) {
+  VehicleModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     merek = json['merek'];
     noPolisi = json['no_polisi'];
     fotoKendaraan = json['foto_kendaraan'];
     fotoStnk = json['foto_stnk'];
     user = UserModel.fromJson(json['user']);
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = DateTime.parse(json['created_at']);
+    updatedAt = DateTime.parse(json['updated_at']);
   }
 
   Map<String, dynamic> toJson() {

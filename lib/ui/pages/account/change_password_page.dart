@@ -1,7 +1,11 @@
+import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/services/auth_service.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/buttons.dart';
 import 'package:epasys_app/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -19,6 +23,35 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleChangePassword() async {
+      setState(() {
+        isLoading = true;
+      });
+      if (await AuthService().changePasswordUser(
+        passwordController.text,
+        passwordConfirmationController.text,
+        authProvider.user.token!,
+      )) {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Berhasil mengubah password',
+        );
+        passwordController.clear();
+        passwordConfirmationController.clear();
+      } else {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: 'Gagal mengubah password',
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     return Scaffold(
       backgroundColor: lightBackgroundColor,
       appBar: AppBar(
@@ -80,7 +113,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     title: 'Ganti Password',
                     width: double.infinity,
                     color: blueColor,
-                    onPressed: () {},
+                    onPressed: handleChangePassword,
                   ),
           ],
         ),
