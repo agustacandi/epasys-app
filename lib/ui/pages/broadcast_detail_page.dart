@@ -1,4 +1,6 @@
 import 'package:epasys_app/models/broadcast_model.dart';
+import 'package:epasys_app/shared/config.dart';
+import 'package:epasys_app/shared/functions.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,12 +17,6 @@ class BroadcastDetailPage extends StatefulWidget {
 }
 
 class _BroadcastDetailPageState extends State<BroadcastDetailPage> {
-  String convertEpochTimeStamp(DateTime date) {
-    DateFormat format = DateFormat('EEEE, dd MMMM yyyy', 'id_ID');
-    String dateFormated = format.format(date);
-    return dateFormated;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +47,7 @@ class _BroadcastDetailPageState extends State<BroadcastDetailPage> {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      'https://kelompok17stiebi.website/storage/${widget.broadcast.imgUrl}',
+                      '${SharedConfig().imageUrl}/${widget.broadcast.imgUrl}',
                     ),
                   ),
                 ),
@@ -87,7 +83,7 @@ class _BroadcastDetailPageState extends State<BroadcastDetailPage> {
                       height: 10,
                     ),
                     Text(
-                      'Diposting oleh Satpam ${widget.broadcast.employee!.nama} pada ${convertEpochTimeStamp(widget.broadcast.createdAt!)}',
+                      'Diposting oleh Satpam ${widget.broadcast.employee!.nama} pada ${Functions().convertDateTime(widget.broadcast.createdAt!)}',
                       style: blackTextStyle,
                     ),
                     Divider(

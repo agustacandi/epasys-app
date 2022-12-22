@@ -2,6 +2,7 @@ import 'package:epasys_app/models/user_model.dart';
 
 class VehicleModel {
   int? id;
+  String? nama;
   String? merek;
   String? noPolisi;
   String? fotoKendaraan;
@@ -12,6 +13,7 @@ class VehicleModel {
 
   VehicleModel({
     this.id,
+    this.nama,
     this.merek,
     this.noPolisi,
     this.fotoKendaraan,
@@ -23,6 +25,7 @@ class VehicleModel {
 
   VehicleModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    nama = json['nama'];
     merek = json['merek'];
     noPolisi = json['no_polisi'];
     fotoKendaraan = json['foto_kendaraan'];
@@ -35,6 +38,7 @@ class VehicleModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'nama': nama,
       'merek': merek,
       'no_polisi': noPolisi,
       'foto_kendaraan': fotoKendaraan,

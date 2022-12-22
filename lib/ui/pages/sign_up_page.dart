@@ -1,4 +1,5 @@
 import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/providers/parking_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/buttons.dart';
 import 'package:epasys_app/ui/widgets/forms.dart';
@@ -89,6 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget footerSection(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    ParkingProvider parkingProvider = Provider.of<ParkingProvider>(context);
 
     handleSignUp() async {
       setState(() {
@@ -97,13 +99,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
       if (await authProvider.register(
           nameController.text,
-          nimController.text,
+          nimController.text.toUpperCase(),
           emailController.text,
           addressController.text,
           phoneNumberController.text,
           dateController.text,
           passwordController.text,
           passwordConfirmationController.text)) {
+        await parkingProvider.getLatestParkings(authProvider.user.token!);
+        await parkingProvider.getParkings(authProvider.user.token!);
+        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
             context, '/upload-avatar', (route) => false);
       } else {

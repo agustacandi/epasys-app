@@ -1,6 +1,7 @@
 import 'package:epasys_app/models/employee_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/employee_provider.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -111,81 +112,86 @@ class _TeknisiPageState extends State<TeknisiPage> {
                               Shimmer(),
                             ],
                           )
-                        : ListView.builder(
-                            itemCount: value.teknisi.length,
-                            itemBuilder: (context, index) {
-                              var teknisi = value.teknisi[index];
-                              return Container(
-                                padding: const EdgeInsets.all(15),
-                                margin: const EdgeInsets.only(
-                                  bottom: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: whiteColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: greyColor2,
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              'https://kelompok17stiebi.website/storage/${teknisi.avatar}'),
-                                        ),
+                        : (value.teknisi.isEmpty
+                            ? const Center(
+                                child: Text('Teknisi Kosong'),
+                              )
+                            : ListView.builder(
+                                itemCount: value.teknisi.length,
+                                itemBuilder: (context, index) {
+                                  var teknisi = value.teknisi[index];
+                                  return Container(
+                                    padding: const EdgeInsets.all(15),
+                                    margin: const EdgeInsets.only(
+                                      bottom: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: whiteColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: greyColor2,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 12,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          teknisi.nama!,
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 16,
-                                            fontWeight: bold,
+                                        Container(
+                                          width: 60,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  '${SharedConfig().imageUrl}/${teknisi.avatar}'),
+                                            ),
                                           ),
                                         ),
-                                        Text(
-                                          'Teknisi Lab Falcon',
-                                          style: greyTextStyle.copyWith(
-                                            fontWeight: semiBold,
-                                          ),
+                                        const SizedBox(
+                                          width: 12,
                                         ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              teknisi.nama!,
+                                              style: blackTextStyle.copyWith(
+                                                fontSize: 16,
+                                                fontWeight: bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              teknisi.deskripsi!,
+                                              style: greyTextStyle.copyWith(
+                                                fontWeight: semiBold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                          onPressed: () async {
+                                            Uri url = Uri.parse(
+                                                'https://api.whatsapp.com/send/?phone=${teknisi.noTelepon}');
+                                            if (await canLaunchUrl(url)) {
+                                              await launchUrl(
+                                                url,
+                                                mode: LaunchMode
+                                                    .externalApplication,
+                                              );
+                                            }
+                                          },
+                                          icon: Image.asset(
+                                            'assets/images/ic_whatsapp.png',
+                                            width: 24,
+                                          ),
+                                        )
                                       ],
                                     ),
-                                    const Spacer(),
-                                    IconButton(
-                                      onPressed: () async {
-                                        Uri url = Uri.parse(
-                                            'https://api.whatsapp.com/send/?phone=${teknisi.noTelepon}');
-                                        if (await canLaunchUrl(url)) {
-                                          await launchUrl(
-                                            url,
-                                            mode:
-                                                LaunchMode.externalApplication,
-                                          );
-                                        }
-                                      },
-                                      icon: Image.asset(
-                                        'assets/images/ic_whatsapp.png',
-                                        width: 24,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                                  );
+                                },
+                              )),
                   ),
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:epasys_app/models/employee_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/employee_provider.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
@@ -109,8 +110,11 @@ class _SatpamPageState extends State<SatpamPage> {
                               Shimmer(),
                             ],
                           )
-                        : (value.employees.isEmpty
-                            ? ListView.builder(
+                        : (value.satpam.isEmpty
+                            ? const Center(
+                                child: Text('Satpam Kosong'),
+                              )
+                            : ListView.builder(
                                 itemCount: value.satpam.length,
                                 itemBuilder: (context, index) {
                                   var satpam = value.satpam[index];
@@ -137,7 +141,7 @@ class _SatpamPageState extends State<SatpamPage> {
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: NetworkImage(
-                                                  'https://kelompok17stiebi.website/storage/${satpam.avatar}'),
+                                                  '${SharedConfig().imageUrl}/${satpam.avatar}'),
                                             ),
                                           ),
                                         ),
@@ -185,9 +189,6 @@ class _SatpamPageState extends State<SatpamPage> {
                                     ),
                                   );
                                 },
-                              )
-                            : Center(
-                                child: Text('Kendaraan Kosong'),
                               )),
                   ),
                 ),

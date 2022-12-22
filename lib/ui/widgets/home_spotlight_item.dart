@@ -1,4 +1,5 @@
 import 'package:epasys_app/models/broadcast_model.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/pages/broadcast_detail_page.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class HomeSpotlightItem extends StatelessWidget {
                     top: Radius.circular(10),
                   ),
                   child: Image.network(
-                    'https://kelompok17stiebi.website/storage/${broadcast.imgUrl!}',
+                    '${SharedConfig().imageUrl}/${broadcast.imgUrl!}',
                     width: 200,
                     height: 108,
                     fit: BoxFit.cover,
@@ -66,9 +67,6 @@ class HomeSpotlightItem extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        const SizedBox(
-          width: 16,
         ),
       ],
     );

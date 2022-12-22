@@ -1,5 +1,7 @@
 import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/providers/broadcast_provider.dart';
+import 'package:epasys_app/providers/parking_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/buttons.dart';
 import 'package:epasys_app/ui/widgets/forms.dart';
@@ -87,6 +89,11 @@ class _SignInPageState extends State<SignInPage> {
 
       if (await authProvider.login(
           nimController.text.toUpperCase(), passwordController.text)) {
+        await Provider.of<ParkingProvider>(context, listen: false)
+            .getLatestParkings(authProvider.user.token!);
+        if (!mounted) return;
+        await Provider.of<BroadcastProvider>(context, listen: false)
+            .getBroadcasts();
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', 'Bearer ${authProvider.user.token!}');
         if (!mounted) return;

@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:epasys_app/models/employee_model.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:http/http.dart' as http;
 
 class EmployeeService {
   String baseUrl = 'https://kelompok17stiebi.website/api';
 
   Future<List<EmployeeModel>> getTeknisi() async {
-    String url = '$baseUrl/employees?role=TEKNISI';
+    String url = '${SharedConfig().url}/employees?role=TEKNISI';
     var headers = {
       'Content-Type': 'application/json',
     };
@@ -29,7 +30,7 @@ class EmployeeService {
   }
 
   Future<List<EmployeeModel>> getSatpam() async {
-    String url = '$baseUrl/employees?role=SATPAM';
+    String url = '${SharedConfig().url}/employees?role=SATPAM';
     var headers = {
       'Content-Type': 'application/json',
     };

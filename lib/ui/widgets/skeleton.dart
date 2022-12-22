@@ -1,5 +1,6 @@
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart' as shmmr;
 
 class Skeleton extends StatelessWidget {
   final double? width, height, borderRadius;
@@ -12,16 +13,19 @@ class Skeleton extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: greyColor.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(borderRadius!),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => shmmr.Shimmer.fromColors(
+        baseColor: Colors.grey.shade500,
+        highlightColor: Colors.grey.shade700,
+        direction: shmmr.ShimmerDirection.ltr,
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: greyColor.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(borderRadius!),
+          ),
+        ),
+      );
 }
 
 class Shimmer extends StatelessWidget {

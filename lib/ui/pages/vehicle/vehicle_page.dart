@@ -1,5 +1,10 @@
+import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/providers/parking_provider.dart';
+import 'package:epasys_app/providers/vehicle_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
+import 'package:epasys_app/ui/widgets/vehicle_card_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VehiclePage extends StatefulWidget {
   const VehiclePage({Key? key}) : super(key: key);
@@ -12,10 +17,13 @@ class _VehiclePageState extends State<VehiclePage> {
   bool isLoading = false;
 
   getVehicles() async {
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
     setState(() {
       isLoading = true;
     });
-
+    await Provider.of<VehicleProvider>(context, listen: false)
+        .getVehicles(authProvider.user.token!);
     setState(() {
       isLoading = true;
     });
@@ -42,159 +50,121 @@ class _VehiclePageState extends State<VehiclePage> {
         },
         child: const Icon(Icons.add),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  blueColor3,
-                  blueColor2,
-                  // blueColor2,
-                  // blueColor2,
-                ],
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
+      body: RefreshIndicator(
+        onRefresh: () async => getVehicles(),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    blueColor3,
+                    blueColor2,
+                    // blueColor2,
+                    // blueColor2,
+                  ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                ),
               ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(
-              top: 60,
-              left: 24,
-              right: 24,
-            ),
-            height: 200,
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Kendaraan',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 20,
-                    fontWeight: bold,
+            Container(
+              padding: const EdgeInsets.only(
+                top: 60,
+                left: 24,
+                right: 24,
+              ),
+              height: 200,
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Kendaraan',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 20,
+                      fontWeight: bold,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 28,
-                ),
-                TextFormField(
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: semiBold,
+                  const SizedBox(
+                    height: 28,
                   ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: whiteColor,
-                    hintText: 'Cari kendaraan...',
-                    hintStyle: greyTextStyle.copyWith(
+                  TextFormField(
+                    style: blackTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
                     ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(
-                          10,
-                        ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: whiteColor,
+                      hintText: 'Cari kendaraan...',
+                      hintStyle: greyTextStyle.copyWith(
+                        fontSize: 16,
+                        fontWeight: semiBold,
                       ),
-                      borderSide: BorderSide(
-                        width: 0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 200,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.only(
-                left: 24,
-                top: 24,
-                right: 24,
-              ),
-              decoration: BoxDecoration(
-                color: lightBackgroundColor,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(30),
-                ),
-              ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 24,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          border: Border.all(
-                            color: greyColor2,
-                          ),
-                          borderRadius: BorderRadius.circular(
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
                             10,
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: lightBlueColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Image.asset(
-                                  'assets/images/ic_logo.png',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Motor Mogeku',
-                                  style: blackTextStyle,
-                                ),
-                                Text(
-                                  'Yamaha R15 - N116GA',
-                                  style: greyTextStyle,
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              icon: Icon(Icons.arrow_forward_ios_rounded),
-                              onPressed: () {},
-                            )
-                          ],
+                        borderSide: BorderSide(
+                          width: 0,
                         ),
-                      )
-                    ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 200,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Consumer<VehicleProvider>(
+                builder: (context, value, child) => Container(
+                  padding: const EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                  ),
+                  decoration: BoxDecoration(
+                    color: lightBackgroundColor,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 24,
+                    ),
+                    child: value.vehicles.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Anda belum mendambahkan kendaraan',
+                              style: blackTextStyle,
+                            ),
+                          )
+                        : ListView.separated(
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              height: 15,
+                            ),
+                            scrollDirection: Axis.vertical,
+                            itemCount: value.vehicles.length,
+                            itemBuilder: (context, index) {
+                              var vehicle = value.vehicles[index];
+                              return VehicleCardItem(
+                                vehicle: vehicle,
+                              );
+                            },
+                          ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/image_helper.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/buttons.dart';
@@ -61,7 +62,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
           addressController.text,
           phoneNumberController.text,
           emailController.text,
-          _image!,
           authProvider.user.token!)) {
         setState(() {
           isLoading = false;
@@ -84,6 +84,57 @@ class _EditAccountPageState extends State<EditAccountPage> {
           context: context,
           type: QuickAlertType.error,
           text: 'Gagal memperbarui data',
+        );
+      }
+    }
+
+    handleEditAvatar() async {
+      final files = await _imageHelper.pickImage(
+        imageQuality: 50,
+      );
+      if (files.isNotEmpty) {
+        final croppedFile = await _imageHelper.crop(
+          file: files.first!,
+          cropStyle: CropStyle.circle,
+        );
+
+        if (croppedFile != null) {
+          setState(() {
+            _image = File(croppedFile.path);
+          });
+        }
+      }
+
+      setState(() {
+        isLoading = true;
+      });
+
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.loading,
+        barrierDismissible: false,
+      );
+      if (await authProvider.updateAvatar(_image!, authProvider.user.token!)) {
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.pop(context);
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Berhasil memperbarui avatar',
+          onConfirmBtnTap: () {
+            Navigator.pop(context);
+          },
+        );
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: 'Gagal memperbarui avatar',
         );
       }
     }
@@ -114,46 +165,43 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     height: 100,
                     child: Stack(
                       children: [
-                        _image != null
-                            ? FittedBox(
-                                fit: BoxFit.contain,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.grey[300],
-                                  foregroundImage: FileImage(_image!),
-                                  radius: 66,
-                                ),
-                              )
-                            : Container(
+                        value.user.avatar == ''
+                            ? Container(
                                 width: 100,
                                 height: 100,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
+                                decoration: const BoxDecoration(
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      'https://kelompok17stiebi.website/storage/${value.user.avatar}',
+                                    image: AssetImage(
+                                      'assets/images/img_profile.png',
                                     ),
                                   ),
                                 ),
-                              ),
+                              )
+                            : (_image != null
+                                ? FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey[300],
+                                      foregroundImage: FileImage(_image!),
+                                      radius: 66,
+                                    ),
+                                  )
+                                : Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          '${SharedConfig().imageUrl}/${value.user.avatar}',
+                                        ),
+                                      ),
+                                    ),
+                                  )),
                         GestureDetector(
-                          onTap: () async {
-                            final files = await _imageHelper.pickImage(
-                              imageQuality: 50,
-                            );
-                            if (files.isNotEmpty) {
-                              final croppedFile = await _imageHelper.crop(
-                                file: files.first!,
-                                cropStyle: CropStyle.circle,
-                              );
-
-                              if (croppedFile != null) {
-                                setState(() {
-                                  _image = File(croppedFile.path);
-                                });
-                              }
-                            }
-                          },
+                          onTap: handleEditAvatar,
                           child: Align(
                             alignment: Alignment.bottomRight,
                             child: Container(

@@ -1,6 +1,7 @@
 import 'package:epasys_app/models/user_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/services/auth_service.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/account_item_card.dart';
 import 'package:flutter/material.dart';
@@ -72,83 +73,99 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.only(
-              top: 60,
-              left: 24,
-              right: 24,
-            ),
-            height: 200,
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Pengaturan',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 20,
-                    fontWeight: bold,
+          Consumer<AuthProvider>(
+            builder: (context, value, child) => Container(
+              padding: const EdgeInsets.only(
+                top: 60,
+                left: 24,
+                right: 24,
+              ),
+              height: 200,
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Pengaturan',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 20,
+                      fontWeight: bold,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://kelompok17stiebi.website/storage/${user.avatar}'),
-                        ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      value.user.avatar == ''
+                          ? Container(
+                              width: 60,
+                              height: 60,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    'assets/images/img_profile.png',
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                      '${SharedConfig().imageUrl}/${value.user.avatar}'),
+                                ),
+                              ),
+                            ),
+                      const SizedBox(
+                        width: 10,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${user.nama}',
-                          style: whiteTextStyle.copyWith(
-                            fontSize: 18,
-                            fontWeight: bold,
-                          ),
-                        ),
-                        Text('${user.nim}',
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${user.nama}',
                             style: whiteTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: semiBold,
-                            )),
-                      ],
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: Icon(
-                        Icons.logout,
-                        size: 24,
-                        color: whiteColor,
+                              fontSize: 18,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          Text('${user.nim}',
+                              style: whiteTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: semiBold,
+                              )),
+                        ],
                       ),
-                      onPressed: () {
-                        QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.confirm,
-                          confirmBtnText: 'Iya',
-                          cancelBtnText: 'Batal',
-                          title: 'Apakah anda yakin ingin keluar?',
-                          onConfirmBtnTap: handleLogOut,
-                        );
-                      },
-                    ),
-                  ],
-                )
-              ],
+                      const Spacer(),
+                      IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          size: 24,
+                          color: whiteColor,
+                        ),
+                        onPressed: () {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.confirm,
+                            confirmBtnText: 'Iya',
+                            cancelBtnText: 'Batal',
+                            title: 'Apakah anda yakin ingin keluar?',
+                            onConfirmBtnTap: handleLogOut,
+                          );
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
           Positioned(

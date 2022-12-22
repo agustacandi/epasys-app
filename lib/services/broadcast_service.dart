@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:epasys_app/models/broadcast_model.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:http/http.dart' as http;
 
 class BroadcastService {
   String baseUrl = 'https://kelompok17stiebi.website/api';
 
   Future<List<BroadcastModel>> getBroadcasts() async {
-    String url = '$baseUrl/broadcasts';
+    String url = '${SharedConfig().url}/broadcasts';
     var headers = {
       'Content-Type': 'application/json',
     };

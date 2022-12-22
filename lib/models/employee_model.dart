@@ -1,6 +1,7 @@
 class EmployeeModel {
   int? id;
   String? nama;
+  String? deskripsi;
   String? email;
   String? role;
   String? alamat;
@@ -13,6 +14,7 @@ class EmployeeModel {
   EmployeeModel({
     this.id,
     this.nama,
+    this.deskripsi,
     this.email,
     this.avatar,
     this.role,
@@ -26,6 +28,7 @@ class EmployeeModel {
   EmployeeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nama = json['nama'];
+    deskripsi = json['deskripsi'];
     email = json['email'];
     avatar = json['avatar'];
     role = json['role'];
@@ -40,6 +43,7 @@ class EmployeeModel {
     return {
       'id': id,
       'nama': nama,
+      'deskripsi': deskripsi,
       'email': email,
       'avatar': avatar,
       'role': role,

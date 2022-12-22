@@ -53,12 +53,8 @@ class AuthProvider with ChangeNotifier {
     try {
       UserModel user = await AuthService().updateAvatar(image, token);
 
-      print(user);
-
       _user!.avatar = user.avatar;
       notifyListeners();
-
-      print(_user);
 
       return true;
     } catch (e) {
@@ -71,7 +67,6 @@ class AuthProvider with ChangeNotifier {
   Future<void> getCurrentUser(String token) async {
     try {
       UserModel user = await AuthService().getCurrentUser(token);
-      print(user);
       _user = user;
       _user!.token = token;
       notifyListeners();
@@ -87,12 +82,11 @@ class AuthProvider with ChangeNotifier {
     String alamat,
     String noHp,
     String email,
-    File? image,
     String token,
   ) async {
     try {
-      UserModel user = await AuthService().updateProfile(
-          nama, nim, tanggalLahir, alamat, noHp, email, image, token);
+      UserModel user = await AuthService()
+          .updateProfile(nama, nim, tanggalLahir, alamat, noHp, email, token);
 
       _user = user;
       _user!.token = token;

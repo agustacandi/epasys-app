@@ -1,4 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:epasys_app/models/parking_model.dart';
+import 'package:epasys_app/shared/functions.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,8 @@ class HistoryDetailPage extends StatefulWidget {
 class _HistoryDetailPageState extends State<HistoryDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as ParkingModel;
     return Scaffold(
       backgroundColor: lightBackgroundColor,
       appBar: AppBar(
@@ -47,7 +51,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
               child: Column(
                 children: [
                   Text(
-                    'Check Out Parkir',
+                    'Check ${arguments.status == 'IN' ? 'In' : 'Out'} Parkir',
                     style: blackTextStyle.copyWith(
                       fontSize: 20,
                       fontWeight: bold,
@@ -76,14 +80,14 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ),
                           ),
                           Text(
-                            'Hari, Tanggal',
+                            'Jam ${arguments.status == 'IN' ? 'Masuk' : 'Keluar'}',
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            'Waktu',
+                            'Tanggal',
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
@@ -109,35 +113,35 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            'OUT110122022',
+                            arguments.nomorParkir!,
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            'Sabtu, 10 Desember 2022',
+                            Functions().convertDateTime3(arguments.createdAt!),
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            '17.00',
+                            Functions().convertDateTime2(arguments.createdAt!),
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            'Yamaha R15',
+                            arguments.vehicle!.merek!,
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            'P 123 AB',
+                            arguments.vehicle!.noPolisi!,
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
@@ -163,7 +167,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                         barcode: Barcode.qrCode(
                           errorCorrectLevel: BarcodeQRCorrectionLevel.high,
                         ),
-                        data: 'OUT110122022',
+                        data: arguments.nomorParkir!,
                         width: 200,
                         height: 200,
                       ),

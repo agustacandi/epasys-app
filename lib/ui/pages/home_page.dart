@@ -1,9 +1,12 @@
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/broadcast_provider.dart';
+import 'package:epasys_app/providers/parking_provider.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/history_card.dart';
 import 'package:epasys_app/ui/widgets/home_menu_item.dart';
 import 'package:epasys_app/ui/widgets/home_spotlight_item.dart';
+import 'package:epasys_app/ui/widgets/home_transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,42 +19,63 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isLoading = false;
+
+  refresh() async {
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    setState(() {
+      isLoading = true;
+    });
+    await Provider.of<BroadcastProvider>(context, listen: false)
+        .getBroadcasts();
+    if (!mounted) return;
+    await Provider.of<ParkingProvider>(context, listen: false)
+        .getLatestParkings(authProvider.user.token!);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                blueColor3,
-                blueColor2,
-                // blueColor2,
-                // blueColor2,
-              ],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
+      backgroundColor: lightBackgroundColor,
+      body: RefreshIndicator(
+        onRefresh: () async => refresh(),
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  blueColor3,
+                  blueColor2,
+                  // blueColor2,
+                  // blueColor2,
+                ],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ),
             ),
-          ),
-          child: Column(
-            children: <Widget>[
-              headerSection(),
-              Container(
-                decoration: BoxDecoration(
-                  color: lightBackgroundColor,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(30),
+            child: Column(
+              children: <Widget>[
+                headerSection(),
+                Container(
+                  decoration: BoxDecoration(
+                    color: lightBackgroundColor,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    spotlightSection(),
-                    otherMenusSection(),
-                    latestHistorySection(),
-                  ],
-                ),
-              )
-            ],
+                  child: Column(
+                    children: <Widget>[
+                      spotlightSection(),
+                      otherMenusSection(),
+                      latestHistorySection(),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -88,18 +112,32 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://kelompok17stiebi.website/storage/${value.user.avatar}'),
-                ),
-              ),
-            )
+            value.user.avatar == ''
+                ? Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                          'assets/images/img_profile.png',
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                            '${SharedConfig().imageUrl}/${value.user.avatar}'),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),
@@ -207,51 +245,68 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget latestHistorySection() {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 16,
-        top: 30,
-        right: 16,
-        bottom: 40,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Riwayat Terbaru',
-            style: blackTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: bold,
+    return Consumer<ParkingProvider>(
+      builder: (context, value, child) => Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(
+          left: 16,
+          top: 30,
+          right: 16,
+          bottom: 40,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Riwayat Terbaru',
+              style: blackTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: bold,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          const EmptyHistoryCard(),
-          //     color: whiteColor,
-          //     borderRadius: BorderRadius.circular(10),
-          //     border: Border.all(
-          //       color: greyColor2,
-          //     ),
-          //   ),
-          //   child: Column(
-          //     children: const <Widget>[
-          //       HomeTransactionItem(
-          //         iconUrl: 'assets/images/img_checkout.png',
-          //         title: 'Scoopy',
-          //         time: '11:00',
-          //         vechileName: 'N 111 GA',
-          //       ),
-          //       HomeTransactionItem(
-          //         iconUrl: 'assets/images/img_checkin.png',
-          //         title: 'Scoopy',
-          //         time: '07:00',
-          //         vechileName: 'N 111 GA',
-          //       ),
-          //     ],
-          //   ),
-          // ),
-        ],
+            const SizedBox(
+              height: 12,
+            ),
+            value.latestParkings.isEmpty
+                ? const EmptyHistoryCard()
+                : Column(
+                    children: value.latestParkings
+                        .map(
+                          (parking) => HistoryCard(
+                            parking: parking,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/detail-history',
+                                arguments: parking,
+                              );
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+          ],
+        ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: <Widget>[
+        //     Text(
+        //       'Riwayat Terbaru',
+        //       style: blackTextStyle.copyWith(
+        //         fontSize: 16,
+        //         fontWeight: bold,
+        //       ),
+        //     ),
+        //     const SizedBox(
+        //       height: 12,
+        //     ),
+        //     const EmptyHistoryCard(),
+        //     Container(
+        //       width: double.infinity,
+        //       child:
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

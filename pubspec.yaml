@@ -31,6 +31,7 @@ environment:
 dependencies:
   barcode_widget: ^2.0.3
   carousel_slider: ^4.1.1
+  connectivity_plus: ^3.0.2
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -38,11 +39,13 @@ dependencies:
   http: ^0.13.5
   image_cropper: ^3.0.1
   image_picker: ^0.8.6
+  internet_connection_checker: ^1.0.0+1
   intl: ^0.17.0
   mobile_scanner: ^2.0.0
   provider: ^6.0.4
   quickalert: ^1.0.1
   shared_preferences: ^2.0.15
+  shimmer: ^2.0.0
   url_launcher: ^6.1.7
 
 dev_dependencies:

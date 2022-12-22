@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:epasys_app/models/vehicle_model.dart';
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/vehicle_provider.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/image_helper.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/buttons.dart';
@@ -10,14 +12,15 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
-class AddVehiclePage extends StatefulWidget {
-  const AddVehiclePage({super.key});
+class EditVehiclePage extends StatefulWidget {
+  final VehicleModel vehicle;
+  const EditVehiclePage({required this.vehicle, super.key});
 
   @override
-  State<AddVehiclePage> createState() => _AddVehiclePageState();
+  State<EditVehiclePage> createState() => _EditVehiclePageState();
 }
 
-class _AddVehiclePageState extends State<AddVehiclePage> {
+class _EditVehiclePageState extends State<EditVehiclePage> {
   TextEditingController namaController = TextEditingController(text: '');
   TextEditingController merekController = TextEditingController(text: '');
   TextEditingController noPolisiController = TextEditingController(text: '');
@@ -30,7 +33,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       backgroundColor: lightBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Tambah Kendaraan',
+          'Edit Kendaraan',
           style: whiteTextStyle.copyWith(
             fontWeight: bold,
           ),
@@ -55,6 +58,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 style: blackTextStyle,
                 decoration: InputDecoration(
                   labelText: 'Nama Kendaraan',
+                  hintText: widget.vehicle.nama,
                   labelStyle: blackTextStyle,
                   prefixIcon: const Icon(
                     Icons.motorcycle,
@@ -70,6 +74,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 style: blackTextStyle,
                 decoration: InputDecoration(
                   labelText: 'Merek Kendaraan',
+                  hintText: widget.vehicle.merek,
                   labelStyle: blackTextStyle,
                   prefixIcon: const Icon(
                     Icons.motorcycle,
@@ -85,6 +90,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 style: blackTextStyle,
                 decoration: InputDecoration(
                   labelText: 'Nomor Polisi',
+                  hintText: widget.vehicle.noPolisi,
                   labelStyle: blackTextStyle,
                   prefixIcon: const Icon(
                     Icons.numbers,
@@ -148,24 +154,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.image,
-                                size: 60,
-                                color: greyColor,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Tap untuk memilih gambar',
-                                style: greyTextStyle,
-                              )
-                            ],
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                '${SharedConfig().imageUrl}/${widget.vehicle.fotoKendaraan}'),
                           ),
                         ),
                       ),
@@ -226,24 +218,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.image,
-                                size: 60,
-                                color: greyColor,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Tap untuk memilih gambar',
-                                style: greyTextStyle,
-                              )
-                            ],
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                '${SharedConfig().imageUrl}/${widget.vehicle.fotoStnk}'),
                           ),
                         ),
                       ),
@@ -252,8 +230,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 height: 20,
               ),
               CustomButton(
-                title: 'Tambah',
-                color: blueColor2,
+                title: 'Update',
+                color: greenColor,
                 onPressed: () async {
                   VehicleProvider vehicleProvider =
                       Provider.of<VehicleProvider>(context, listen: false);
@@ -264,8 +242,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     type: QuickAlertType.loading,
                     barrierDismissible: false,
                   );
-                  if (await vehicleProvider.addVehicle(
-                      authProvider.user.id!,
+                  if (await vehicleProvider.editVehicle(
+                      widget.vehicle.id.toString(),
                       namaController.text,
                       merekController.text,
                       noPolisiController.text,
@@ -276,7 +254,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     QuickAlert.show(
                       context: context,
                       type: QuickAlertType.success,
-                      text: 'Berhasil menambahkan kendaraan',
+                      text: 'Berhasil mengubah data kendaraan',
                       barrierDismissible: false,
                       onConfirmBtnTap: () {
                         Navigator.pop(context);
@@ -288,7 +266,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     QuickAlert.show(
                       context: context,
                       type: QuickAlertType.error,
-                      text: 'Gagal menambahkan kendaraan',
+                      text: 'Gagal mengubah data kendaraan',
                       onConfirmBtnTap: () {
                         Navigator.pop(context);
                       },

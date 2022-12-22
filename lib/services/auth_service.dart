@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:epasys_app/models/user_model.dart';
+import 'package:epasys_app/shared/config.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  String baseUrl = 'https://kelompok17stiebi.website/api';
-
   Future<UserModel> register(
       String nama,
       String email,
@@ -16,7 +14,7 @@ class AuthService {
       String tanggalLahir,
       String password,
       String passwordConfirm) async {
-    var url = '$baseUrl/register';
+    var url = '${SharedConfig().url}/register';
     var headers = {'Content-Type': 'application/json'};
     var body = jsonEncode({
       'nama': nama,
@@ -43,7 +41,7 @@ class AuthService {
   }
 
   Future<UserModel> login(String nim, String password) async {
-    var url = '$baseUrl/login';
+    var url = '${SharedConfig().url}/login';
     var headers = {
       'Content-Type': 'application/json',
     };
@@ -67,7 +65,7 @@ class AuthService {
   }
 
   Future<bool> logout(String token) async {
-    var url = '$baseUrl/logout';
+    var url = '${SharedConfig().url}/logout';
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': token,
@@ -82,7 +80,7 @@ class AuthService {
   }
 
   Future<UserModel> updateAvatar(File image, String token) async {
-    String url = '$baseUrl/users/photo';
+    String url = '${SharedConfig().url}/users/photo';
     var headers = {'Authorization': token};
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -111,7 +109,7 @@ class AuthService {
   }
 
   Future<UserModel> getCurrentUser(String token) async {
-    String url = '$baseUrl/user';
+    String url = '${SharedConfig().url}/user';
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Authorization': token,
@@ -134,10 +132,9 @@ class AuthService {
     String alamat,
     String noHp,
     String email,
-    File? image,
     String token,
   ) async {
-    String url = '$baseUrl/users';
+    String url = '${SharedConfig().url}/users';
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': token,
@@ -165,10 +162,6 @@ class AuthService {
     if (email != '') {
       request.fields['email'] = email;
     }
-    if (image != null) {
-      request.files
-          .add(await http.MultipartFile.fromPath('avatar', image.path));
-    }
 
     var response = await request.send().then(
           (result) => http.Response.fromStream(result).then(
@@ -191,7 +184,7 @@ class AuthService {
 
   Future<bool> changePasswordUser(
       String password, String confirmPassword, String token) async {
-    String url = '$baseUrl/users/password';
+    String url = '${SharedConfig().url}/users/password';
     var headers = {
       'Authorization': token,
     };
