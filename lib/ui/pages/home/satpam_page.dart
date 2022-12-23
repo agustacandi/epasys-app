@@ -160,7 +160,7 @@ class _SatpamPageState extends State<SatpamPage> {
                                               ),
                                             ),
                                             Text(
-                                              'Teknisi Lab Falcon',
+                                              satpam.deskripsi!,
                                               style: greyTextStyle.copyWith(
                                                 fontWeight: semiBold,
                                               ),

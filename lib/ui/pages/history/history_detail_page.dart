@@ -3,6 +3,7 @@ import 'package:epasys_app/models/parking_model.dart';
 import 'package:epasys_app/shared/functions.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HistoryDetailPage extends StatefulWidget {
   const HistoryDetailPage({super.key});
@@ -120,14 +121,14 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ),
                           ),
                           Text(
-                            Functions().convertDateTime3(arguments.createdAt!),
+                            DateFormat().add_Hm().format(arguments.createdAt!),
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            Functions().convertDateTime2(arguments.createdAt!),
+                            arguments.createdAt!.toString(),
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: semiBold,

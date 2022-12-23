@@ -67,6 +67,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   child: Column(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
                     children: <Widget>[
                       spotlightSection(),
                       otherMenusSection(),
@@ -146,9 +148,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget spotlightSection() {
     return Container(
-      margin: const EdgeInsets.only(
-        top: 30,
-      ),
+      margin: const EdgeInsets.only(top: 30),
       child: Consumer<BroadcastProvider>(
         builder: (context, value, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,

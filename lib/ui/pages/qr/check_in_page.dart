@@ -151,8 +151,16 @@ class _CheckInPageState extends State<CheckInPage> {
         );
         if (!mounted) return;
         Navigator.pop(context);
-        Navigator.pop(context);
-        _screenOpened = false;
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Berhasil melakukan check in',
+          onConfirmBtnTap: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            _screenOpened = false;
+          },
+        );
       } else {
         QuickAlert.show(
           context: context,

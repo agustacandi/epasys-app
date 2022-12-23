@@ -1,57 +1,47 @@
 class EmployeeModel {
-  int? id;
-  String? nama;
-  String? deskripsi;
-  String? email;
-  String? role;
-  String? alamat;
-  String? noTelepon;
-  String? avatar;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  String? token;
-
   EmployeeModel({
     this.id,
     this.nama,
     this.deskripsi,
     this.email,
-    this.avatar,
     this.role,
-    this.noTelepon,
     this.alamat,
+    this.noTelepon,
+    this.avatar,
     this.createdAt,
     this.updatedAt,
     this.token,
   });
 
-  EmployeeModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    nama = json['nama'];
-    deskripsi = json['deskripsi'];
-    email = json['email'];
-    avatar = json['avatar'];
-    role = json['role'];
-    noTelepon = json['no_telepon'];
-    alamat = json['alamat'];
-    createdAt = DateTime.parse(json['created_at']);
-    updatedAt = DateTime.parse(json['updated_at']);
-    token = json['token'];
-  }
+  int? id;
+  String? nama, deskripsi, email, role, alamat, noTelepon, avatar, token;
+  DateTime? createdAt, updatedAt;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nama': nama,
-      'deskripsi': deskripsi,
-      'email': email,
-      'avatar': avatar,
-      'role': role,
-      'no_telepon': noTelepon,
-      'alamat': alamat,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-      'token': token,
-    };
-  }
+  factory EmployeeModel.fromJson(Map<String, dynamic> json) => EmployeeModel(
+        id: json["id"],
+        nama: json["nama"],
+        deskripsi: json["deskripsi"],
+        email: json["email"],
+        role: json["role"],
+        alamat: json["alamat"],
+        noTelepon: json["no_telepon"],
+        avatar: json["avatar"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        token: json['token'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "nama": nama,
+        "deskripsi": deskripsi,
+        "email": email,
+        "role": role,
+        "alamat": alamat,
+        "no_telepon": noTelepon,
+        "avatar": avatar,
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "token": token,
+      };
 }

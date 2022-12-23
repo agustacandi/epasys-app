@@ -9,6 +9,7 @@ import 'package:epasys_app/ui/widgets/buttons.dart';
 import 'package:epasys_app/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_options.dart';
@@ -89,21 +90,62 @@ class _EditAccountPageState extends State<EditAccountPage> {
     }
 
     handleEditAvatar() async {
-      final files = await _imageHelper.pickImage(
-        imageQuality: 50,
-      );
-      if (files.isNotEmpty) {
-        final croppedFile = await _imageHelper.crop(
-          file: files.first!,
-          cropStyle: CropStyle.circle,
-        );
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return SizedBox(
+              height: 200,
+              child: Column(
+                children: [
+                  ListTile(
+                    onTap: () async {
+                      final files = await _imageHelper.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 50,
+                      );
+                      if (files.isNotEmpty) {
+                        final croppedFile = await _imageHelper.crop(
+                          file: files.first!,
+                          cropStyle: CropStyle.rectangle,
+                        );
 
-        if (croppedFile != null) {
-          setState(() {
-            _image = File(croppedFile.path);
+                        if (croppedFile != null) {
+                          setState(() {
+                            _image = File(croppedFile.path);
+                          });
+                        }
+                      }
+                      Navigator.pop(context);
+                    },
+                    leading: const Icon(Icons.camera_alt),
+                    title: const Text('Ambil Foto'),
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      final files = await _imageHelper.pickImage(
+                        imageQuality: 50,
+                      );
+                      if (files.isNotEmpty) {
+                        final croppedFile = await _imageHelper.crop(
+                          file: files.first!,
+                          cropStyle: CropStyle.rectangle,
+                        );
+
+                        if (croppedFile != null) {
+                          setState(() {
+                            _image = File(croppedFile.path);
+                          });
+                        }
+                      }
+                      Navigator.pop(context);
+                    },
+                    leading: const Icon(Icons.image),
+                    title: const Text('Pilih dari Galeri'),
+                  ),
+                ],
+              ),
+            );
           });
-        }
-      }
 
       setState(() {
         isLoading = true;

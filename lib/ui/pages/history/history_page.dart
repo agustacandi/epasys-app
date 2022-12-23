@@ -141,6 +141,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               ),
             ),
+            ListView()
           ],
         ),
       ),

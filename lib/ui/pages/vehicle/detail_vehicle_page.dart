@@ -111,6 +111,10 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> {
                               style: blackTextStyle,
                             ),
                             Text(
+                              'Jam',
+                              style: blackTextStyle,
+                            ),
+                            Text(
                               'Merek',
                               style: blackTextStyle,
                             ),
@@ -134,6 +138,11 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> {
                             Text(
                               Functions()
                                   .convertDateTime(widget.vehicle.createdAt!),
+                              style: blackTextStyle,
+                            ),
+                            Text(
+                              Functions()
+                                  .convertDateTime3(widget.vehicle.createdAt!),
                               style: blackTextStyle,
                             ),
                             Text(

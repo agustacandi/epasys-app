@@ -41,26 +41,25 @@ class AuthService {
   }
 
   Future<UserModel> login(String nim, String password) async {
-    var url = '${SharedConfig().url}/login';
-    var headers = {
-      'Content-Type': 'application/json',
-    };
-    var body = jsonEncode({
-      'nim': nim,
-      'password': password,
-    });
+    try {
+      var url = '${SharedConfig().url}/login';
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+      var body = jsonEncode({
+        'nim': nim,
+        'password': password,
+      });
 
-    var response =
-        await http.post(Uri.parse(url), headers: headers, body: body);
+      var response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
 
-    if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
       user.token = 'Bearer ${data['token']}';
       return user;
-    } else {
-      print(response.body);
-      throw Exception('Failedddd to upload avatar');
+    } catch (e) {
+      throw Exception('Failed to login account: $e');
     }
   }
 

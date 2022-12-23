@@ -28,11 +28,9 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('id_ID', null).then(
-    (value) => runApp(
-      const Epasys(),
-    ),
-  );
+  await initializeDateFormatting('id_ID', null).then((value) => runApp(
+        const Epasys(),
+      ));
 }
 
 class Epasys extends StatelessWidget {

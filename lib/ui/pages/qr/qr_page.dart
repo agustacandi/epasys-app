@@ -66,86 +66,86 @@ class _QRPageState extends State<QRPage> {
               end: Alignment.topRight,
             ),
           ),
-          child: ListView(
-            padding: const EdgeInsets.only(
-              top: 60,
-              left: 24,
-              right: 24,
-            ),
-            children: [
-              Text(
-                'Scan',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
-                textAlign: TextAlign.center,
+          child: Consumer<ParkingProvider>(
+            builder: (context, value, child) => ListView(
+              padding: const EdgeInsets.only(
+                top: 60,
+                left: 60,
+                right: 60,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  '/helm',
-                ),
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: whiteColor,
-                    border: Border.all(
-                      color: greyColor2,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
+              children: [
+                Text(
+                  'Scan',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: bold,
                   ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.qr_code_scanner,
-                          size: 60,
-                          color: blackColor,
-                        ),
-                        Text(
-                          'Check In',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 20,
-                            fontWeight: bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => Container(
-                      height: 400,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: lightBackgroundColor,
+                const SizedBox(
+                  height: 100,
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    '/helm',
+                  ),
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      border: Border.all(
+                        color: greyColor2,
                       ),
-                      child: isLoading
-                          ? const Center(
-                              child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator()),
-                            )
-                          : (qr != null
-                              ? Consumer<ParkingProvider>(
-                                  builder: (context, value, child) => Column(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.qr_code_scanner,
+                            size: 60,
+                            color: blackColor,
+                          ),
+                          Text(
+                            'Check In',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 20,
+                              fontWeight: bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => Container(
+                        height: 400,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: lightBackgroundColor,
+                        ),
+                        child: isLoading
+                            ? const Center(
+                                child: SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: CircularProgressIndicator()),
+                              )
+                            : (qr != null
+                                ? Column(
                                     children: [
                                       Container(
                                         width: 50,
@@ -221,55 +221,55 @@ class _QRPageState extends State<QRPage> {
                                         ],
                                       ),
                                     ],
-                                  ),
-                                )
-                              : Center(
-                                  child: Text(
-                                    'Anda belum melakukan Check In',
-                                    style: blackTextStyle.copyWith(
-                                      fontSize: 18,
-                                      fontWeight: bold,
+                                  )
+                                : Center(
+                                    child: Text(
+                                      'Anda belum melakukan Check In',
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                      ),
                                     ),
-                                  ),
-                                )),
+                                  )),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      border: Border.all(
+                        color: greyColor2,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
                     ),
-                  );
-                },
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: whiteColor,
-                    border: Border.all(
-                      color: greyColor2,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.qr_code_outlined,
-                          size: 60,
-                          color: blackColor,
-                        ),
-                        Text(
-                          'Check Out',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 20,
-                            fontWeight: bold,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.qr_code_outlined,
+                            size: 60,
+                            color: blackColor,
                           ),
-                        ),
-                      ],
+                          Text(
+                            'Check Out',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 20,
+                              fontWeight: bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

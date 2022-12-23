@@ -115,8 +115,8 @@ class ParkingModel {
         "id_kendaraan": idKendaraan,
         "id_karyawan": idKaryawan,
         "id_user": idUser,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt!.toString(),
+        "updated_at": updatedAt!.toString(),
         "vehicle": vehicle!.toJson(),
         "employee": employee!.toJson(),
         "user": user!.toJson(),
@@ -163,8 +163,8 @@ class Employee {
         "alamat": alamat,
         "no_telepon": noTelepon,
         "avatar": avatar,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt!.toString(),
+        "updated_at": updatedAt!.toString(),
       };
 }
 
@@ -213,8 +213,8 @@ class User {
             "${tanggalLahir!.year.toString().padLeft(4, '0')}-${tanggalLahir!.month.toString().padLeft(2, '0')}-${tanggalLahir!.day.toString().padLeft(2, '0')}",
         "avatar": avatar,
         "email_verified_at": emailVerifiedAt,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt!.toString(),
+        "updated_at": updatedAt!.toString(),
       };
 }
 
@@ -258,7 +258,7 @@ class Vehicle {
         "foto_kendaraan": fotoKendaraan,
         "is_user": isUser,
         "id_user": idUser,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt!.toString(),
+        "updated_at": updatedAt!.toString(),
       };
 }

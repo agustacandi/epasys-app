@@ -1,51 +1,50 @@
 import 'package:epasys_app/models/user_model.dart';
 
 class VehicleModel {
-  int? id;
-  String? nama;
-  String? merek;
-  String? noPolisi;
-  String? fotoKendaraan;
-  String? fotoStnk;
-  UserModel? user;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-
   VehicleModel({
     this.id,
     this.nama,
     this.merek,
     this.noPolisi,
-    this.fotoKendaraan,
     this.fotoStnk,
-    this.user,
+    this.fotoKendaraan,
+    this.isUser,
+    this.idUser,
     this.createdAt,
     this.updatedAt,
+    this.user,
   });
 
-  VehicleModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    nama = json['nama'];
-    merek = json['merek'];
-    noPolisi = json['no_polisi'];
-    fotoKendaraan = json['foto_kendaraan'];
-    fotoStnk = json['foto_stnk'];
-    user = UserModel.fromJson(json['user']);
-    createdAt = DateTime.parse(json['created_at']);
-    updatedAt = DateTime.parse(json['updated_at']);
-  }
+  int? id, isUser, idUser;
+  String? nama, merek, noPolisi, fotoStnk, fotoKendaraan;
+  DateTime? createdAt, updatedAt;
+  UserModel? user;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nama': nama,
-      'merek': merek,
-      'no_polisi': noPolisi,
-      'foto_kendaraan': fotoKendaraan,
-      'foto_stnk': fotoStnk,
-      'user': user,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-    };
-  }
+  factory VehicleModel.fromJson(Map<String, dynamic> json) => VehicleModel(
+        id: json["id"],
+        nama: json["nama"],
+        merek: json["merek"],
+        noPolisi: json["no_polisi"],
+        fotoStnk: json["foto_stnk"],
+        fotoKendaraan: json["foto_kendaraan"],
+        isUser: json["is_user"],
+        idUser: json["id_user"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        user: UserModel.fromJson(json["user"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "nama": nama,
+        "merek": merek,
+        "no_polisi": noPolisi,
+        "foto_stnk": fotoStnk,
+        "foto_kendaraan": fotoKendaraan,
+        "is_user": isUser,
+        "id_user": idUser,
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "user": user!.toJson(),
+      };
 }

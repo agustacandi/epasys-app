@@ -17,7 +17,6 @@ class ParkingService extends ChangeNotifier {
     var response = await http.get(Uri.parse(url), headers: headers);
 
     if (response.statusCode == 200) {
-      // try {
       List data = jsonDecode(response.body)['data'];
       List<ParkingModel> parkings = [];
       for (var parking in data) {
@@ -37,7 +36,6 @@ class ParkingService extends ChangeNotifier {
     };
 
     var response = await http.get(Uri.parse(url), headers: headers);
-
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['data'];
       List<ParkingModel> parkings = [];
@@ -93,11 +91,10 @@ class ParkingService extends ChangeNotifier {
 
     var response =
         await http.post(Uri.parse(url), headers: headers, body: body);
-
     if (response.statusCode == 201) {
       return true;
     } else {
-      throw 'Error checkIn in ParkingService';
+      throw 'Error checkIn in ParkingService: ${response.reasonPhrase}';
     }
   }
 

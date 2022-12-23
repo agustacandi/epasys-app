@@ -64,7 +64,7 @@ class ParkingProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print('Error checkOut in ParkingProvider: $e');
+      print('Error checkInAndOut in ParkingProvider: $e');
       return false;
     }
   }
