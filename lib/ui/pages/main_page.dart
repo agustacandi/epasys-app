@@ -105,10 +105,11 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _widgetOptions,
-      ),
+      body: _widgetOptions.elementAt(_currentIndex),
+      // IndexedStack(
+      //   index: _currentIndex,
+      //   children: _widgetOptions,
+      // ),
     );
   }
 }

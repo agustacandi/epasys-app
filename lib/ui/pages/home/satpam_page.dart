@@ -16,11 +16,8 @@ class SatpamPage extends StatefulWidget {
 }
 
 class _SatpamPageState extends State<SatpamPage> {
-  bool isLoading = false;
+  bool isLoading = true;
   getAllDataEmployees() async {
-    setState(() {
-      isLoading = true;
-    });
     await Provider.of<EmployeeProvider>(context, listen: false).getSatpam();
     setState(() {
       isLoading = false;
@@ -111,8 +108,11 @@ class _SatpamPageState extends State<SatpamPage> {
                             ],
                           )
                         : (value.satpam.isEmpty
-                            ? const Center(
-                                child: Text('Satpam Kosong'),
+                            ? Center(
+                                child: Text(
+                                  'Satpam Kosong',
+                                  style: blackTextStyle,
+                                ),
                               )
                             : ListView.builder(
                                 itemCount: value.satpam.length,

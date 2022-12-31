@@ -3,6 +3,7 @@ import 'package:epasys_app/providers/broadcast_provider.dart';
 import 'package:epasys_app/providers/parking_provider.dart';
 import 'package:epasys_app/shared/config.dart';
 import 'package:epasys_app/shared/theme.dart';
+import 'package:epasys_app/ui/pages/home_shimmer.dart';
 import 'package:epasys_app/ui/widgets/history_card.dart';
 import 'package:epasys_app/ui/widgets/home_menu_item.dart';
 import 'package:epasys_app/ui/widgets/home_spotlight_item.dart';
@@ -18,70 +19,75 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isLoading = false;
+  bool isLoading = true;
 
   refresh() async {
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
-    setState(() {
-      isLoading = true;
-    });
     await Provider.of<BroadcastProvider>(context, listen: false)
         .getBroadcasts();
     if (!mounted) return;
     await Provider.of<ParkingProvider>(context, listen: false)
         .getLatestParkings(authProvider.user.token!);
-    setState(() {
-      isLoading = false;
+    if (mounted) setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      refresh();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: lightBackgroundColor,
-      body: RefreshIndicator(
-        onRefresh: () async => refresh(),
-        child: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  blueColor3,
-                  blueColor2,
-                  // blueColor2,
-                  // blueColor2,
-                ],
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-              ),
-            ),
-            child: Column(
-              children: <Widget>[
-                headerSection(),
-                Container(
+    return isLoading
+        ? const HomeShimmer()
+        : Scaffold(
+            backgroundColor: lightBackgroundColor,
+            body: RefreshIndicator(
+              onRefresh: () async => refresh(),
+              child: SingleChildScrollView(
+                child: Container(
                   decoration: BoxDecoration(
-                    color: lightBackgroundColor,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(30),
+                    gradient: LinearGradient(
+                      colors: [
+                        blueColor3,
+                        blueColor2,
+                        // blueColor2,
+                        // blueColor2,
+                      ],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
                     ),
                   ),
                   child: Column(
-                    // physics: const NeverScrollableScrollPhysics(),
-                    // shrinkWrap: true,
                     children: <Widget>[
-                      spotlightSection(),
-                      otherMenusSection(),
-                      latestHistorySection(),
+                      headerSection(),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: lightBackgroundColor,
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
+                        ),
+                        child: Column(
+                          // physics: const NeverScrollableScrollPhysics(),
+                          // shrinkWrap: true,
+                          children: <Widget>[
+                            spotlightSection(),
+                            otherMenusSection(),
+                            latestHistorySection(),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 
   Widget headerSection() {
@@ -228,12 +234,16 @@ class _HomePageState extends State<HomePage> {
                 menuName: 'Satpam',
               ),
               HomeMenuItem(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/help');
+                },
                 iconUrl: 'assets/images/img_informasi.png',
-                menuName: 'Informasi',
+                menuName: 'Bantuan',
               ),
               HomeMenuItem(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/faq');
+                },
                 iconUrl: 'assets/images/img_faq.png',
                 menuName: 'FAQ',
               ),

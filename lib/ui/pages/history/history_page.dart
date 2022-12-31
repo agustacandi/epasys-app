@@ -1,6 +1,7 @@
 import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/parking_provider.dart';
 import 'package:epasys_app/ui/widgets/history_card.dart';
+import 'package:epasys_app/ui/widgets/history_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +15,13 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  bool isLoading = true;
   getParkings() async {
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
     await Provider.of<ParkingProvider>(context, listen: false)
         .getParkings(authProvider.user.token!);
+    if (mounted) setState(() => isLoading = false);
   }
 
   @override
@@ -68,39 +71,11 @@ class _HistoryPageState extends State<HistoryPage> {
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 28,
-                  ),
-                  TextFormField(
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semiBold,
-                    ),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: whiteColor,
-                      hintText: 'Cari riwayat...',
-                      hintStyle: greyTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
-                      ),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            10,
-                          ),
-                        ),
-                        borderSide: BorderSide(
-                          width: 0,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
             Positioned(
-              top: 200,
+              top: 130,
               bottom: 0,
               left: 0,
               right: 0,
@@ -116,32 +91,33 @@ class _HistoryPageState extends State<HistoryPage> {
                       top: Radius.circular(30),
                     ),
                   ),
-                  child: value.parkings.isEmpty
-                      ? Center(
-                          child: Text(
-                            'Riwayat Parkir Kosong',
-                            style: blackTextStyle,
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: value.parkings.length,
-                          itemBuilder: (context, index) {
-                            return HistoryCard(
-                              parking: value.parkings[index],
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/detail-history',
-                                  arguments: value.parkings[index],
+                  child: isLoading
+                      ? const HistoryShimmer()
+                      : (value.parkings.isEmpty
+                          ? Center(
+                              child: Text(
+                                'Riwayat Parkir Kosong',
+                                style: blackTextStyle,
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: value.parkings.length,
+                              itemBuilder: (context, index) {
+                                return HistoryCard(
+                                  parking: value.parkings[index],
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/detail-history',
+                                      arguments: value.parkings[index],
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                        ),
+                            )),
                 ),
               ),
             ),
-            ListView()
           ],
         ),
       ),

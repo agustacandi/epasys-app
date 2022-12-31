@@ -47,10 +47,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     handleEditProfile() async {
-      setState(() {
-        isLoading = true;
-      });
-
       QuickAlert.show(
         context: context,
         type: QuickAlertType.loading,
@@ -64,9 +60,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
           phoneNumberController.text,
           emailController.text,
           authProvider.user.token!)) {
-        setState(() {
-          isLoading = false;
-        });
         Navigator.pop(context);
         QuickAlert.show(
           context: context,
@@ -78,9 +71,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
           },
         );
       } else {
-        setState(() {
-          isLoading = false;
-        });
         QuickAlert.show(
           context: context,
           type: QuickAlertType.error,
@@ -115,7 +105,29 @@ class _EditAccountPageState extends State<EditAccountPage> {
                           });
                         }
                       }
-                      Navigator.pop(context);
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.loading,
+                        barrierDismissible: false,
+                      );
+                      if (await authProvider.updateAvatar(
+                          _image!, authProvider.user.token!)) {
+                        Navigator.pop(context);
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.success,
+                          text: 'Berhasil memperbarui avatar',
+                          onConfirmBtnTap: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      } else {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          text: 'Gagal memperbarui avatar',
+                        );
+                      }
                     },
                     leading: const Icon(Icons.camera_alt),
                     title: const Text('Ambil Foto'),
@@ -137,7 +149,32 @@ class _EditAccountPageState extends State<EditAccountPage> {
                           });
                         }
                       }
-                      Navigator.pop(context);
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.loading,
+                        barrierDismissible: false,
+                      );
+                      if (await authProvider.updateAvatar(
+                          _image!, authProvider.user.token!)) {
+                        Navigator.pop(context);
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.success,
+                          text: 'Berhasil memperbarui avatar',
+                          onConfirmBtnTap: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      } else {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          text: 'Gagal memperbarui avatar',
+                        );
+                      }
                     },
                     leading: const Icon(Icons.image),
                     title: const Text('Pilih dari Galeri'),
@@ -146,39 +183,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
               ),
             );
           });
-
-      setState(() {
-        isLoading = true;
-      });
-
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.loading,
-        barrierDismissible: false,
-      );
-      if (await authProvider.updateAvatar(_image!, authProvider.user.token!)) {
-        setState(() {
-          isLoading = false;
-        });
-        Navigator.pop(context);
-        QuickAlert.show(
-          context: context,
-          type: QuickAlertType.success,
-          text: 'Berhasil memperbarui avatar',
-          onConfirmBtnTap: () {
-            Navigator.pop(context);
-          },
-        );
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        QuickAlert.show(
-          context: context,
-          type: QuickAlertType.error,
-          text: 'Gagal memperbarui avatar',
-        );
-      }
     }
 
     return Scaffold(

@@ -7,7 +7,9 @@ import 'package:epasys_app/providers/vehicle_provider.dart';
 import 'package:epasys_app/ui/pages/account/change_password_page.dart';
 import 'package:epasys_app/ui/pages/account/detail_account_page.dart';
 import 'package:epasys_app/ui/pages/account/edit_account_page.dart';
+import 'package:epasys_app/ui/pages/help_page.dart';
 import 'package:epasys_app/ui/pages/history/history_detail_page.dart';
+import 'package:epasys_app/ui/pages/home/faq_page.dart';
 import 'package:epasys_app/ui/pages/main_page.dart';
 import 'package:epasys_app/ui/pages/onboarding_page.dart';
 import 'package:epasys_app/ui/pages/qr/check_in_page.dart';
@@ -68,13 +70,14 @@ class Epasys extends StatelessWidget {
           '/sign-up': (context) => const SignUpPage(),
           '/upload-avatar': (context) => const UploadAvatarPage(),
           '/main': (context) => const MainPage(),
+          '/help': (context) => const HelpPage(),
           '/satpam': (context) => const SatpamPage(),
           '/teknisi': (context) => const TeknisiPage(),
           '/broadcast': (context) => const TeknisiPage(),
           '/helm': (context) => const HelmPage(),
           '/check-in': (context) => const CheckInPage(),
           '/check-out': (context) => const CheckOutPage(),
-          '/faq': (context) => const TeknisiPage(),
+          '/faq': (context) => const FAQPage(),
           '/detail-account': (context) => const DetailAccountPage(),
           '/edit-account': (context) => const EditAccountPage(),
           '/change-password': (context) => const ChangePasswordPage(),

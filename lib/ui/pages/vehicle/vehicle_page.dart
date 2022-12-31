@@ -2,6 +2,7 @@ import 'package:epasys_app/providers/auth_provider.dart';
 import 'package:epasys_app/providers/parking_provider.dart';
 import 'package:epasys_app/providers/vehicle_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
+import 'package:epasys_app/ui/widgets/history_shimmer.dart';
 import 'package:epasys_app/ui/widgets/vehicle_card_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +15,14 @@ class VehiclePage extends StatefulWidget {
 }
 
 class _VehiclePageState extends State<VehiclePage> {
-  bool isLoading = false;
+  bool isLoading = true;
 
   getVehicles() async {
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
-    setState(() {
-      isLoading = true;
-    });
     await Provider.of<VehicleProvider>(context, listen: false)
         .getVehicles(authProvider.user.token!);
-    setState(() {
-      isLoading = true;
-    });
+    if (mounted) setState(() => isLoading = false);
   }
 
   @override
@@ -86,39 +82,11 @@ class _VehiclePageState extends State<VehiclePage> {
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 28,
-                  ),
-                  TextFormField(
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semiBold,
-                    ),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: whiteColor,
-                      hintText: 'Cari kendaraan...',
-                      hintStyle: greyTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
-                      ),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            10,
-                          ),
-                        ),
-                        borderSide: BorderSide(
-                          width: 0,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
             Positioned(
-              top: 200,
+              top: 130,
               bottom: 0,
               left: 0,
               right: 0,
@@ -138,27 +106,29 @@ class _VehiclePageState extends State<VehiclePage> {
                     padding: const EdgeInsets.only(
                       bottom: 24,
                     ),
-                    child: value.vehicles.isEmpty
-                        ? Center(
-                            child: Text(
-                              'Anda belum mendambahkan kendaraan',
-                              style: blackTextStyle,
-                            ),
-                          )
-                        : ListView.separated(
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 15,
-                            ),
-                            scrollDirection: Axis.vertical,
-                            itemCount: value.vehicles.length,
-                            itemBuilder: (context, index) {
-                              var vehicle = value.vehicles[index];
-                              return VehicleCardItem(
-                                vehicle: vehicle,
-                              );
-                            },
-                          ),
+                    child: isLoading
+                        ? const HistoryShimmer()
+                        : (value.vehicles.isEmpty
+                            ? Center(
+                                child: Text(
+                                  'Anda belum mendambahkan kendaraan',
+                                  style: blackTextStyle,
+                                ),
+                              )
+                            : ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                  height: 15,
+                                ),
+                                scrollDirection: Axis.vertical,
+                                itemCount: value.vehicles.length,
+                                itemBuilder: (context, index) {
+                                  var vehicle = value.vehicles[index];
+                                  return VehicleCardItem(
+                                    vehicle: vehicle,
+                                  );
+                                },
+                              )),
                   ),
                 ),
               ),

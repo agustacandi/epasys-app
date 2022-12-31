@@ -46,7 +46,7 @@ class _SignInPageState extends State<SignInPage> {
       child: Column(
         children: [
           Text(
-            'Welcome Back',
+            'Selamat Datang Kembali',
             style: blackTextStyle.copyWith(
               fontSize: 24,
               fontWeight: bold,
@@ -56,7 +56,7 @@ class _SignInPageState extends State<SignInPage> {
             height: 2,
           ),
           Text(
-            'Sign in to continue',
+            'Login untuk melanjutkan',
             style: greyTextStyle.copyWith(
               fontSize: 16,
               fontWeight: semiBold,
@@ -107,7 +107,7 @@ class _SignInPageState extends State<SignInPage> {
           const SnackBar(
             backgroundColor: Colors.red,
             content: Text(
-              'Login failed',
+              'NIM atau password salah!',
               textAlign: TextAlign.center,
             ),
           ),
@@ -154,7 +154,7 @@ class _SignInPageState extends State<SignInPage> {
           isLoading
               ? const LoadingButton()
               : CustomButton(
-                  title: 'Sign In',
+                  title: 'Login',
                   width: double.infinity,
                   color: blueColor,
                   onPressed: handleSignIn,
@@ -167,7 +167,7 @@ class _SignInPageState extends State<SignInPage> {
               Navigator.pushNamed(context, '/sign-up');
             },
             child: Text(
-              'Create New Account',
+              'Buat Akun Baru',
               style: greyTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: semiBold,

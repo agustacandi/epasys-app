@@ -13,29 +13,28 @@ class QRPage extends StatefulWidget {
 }
 
 class _QRPageState extends State<QRPage> {
-  bool isLoading = false;
+  bool isLoading = true;
   var qr;
   getCheckOut() async {
-    setState(() {
-      isLoading = true;
-    });
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
     ParkingProvider parkingProvider =
         Provider.of<ParkingProvider>(context, listen: false);
     if (await parkingProvider.getCheckOut(authProvider.user.token!)) {
-      setState(() {
-        qr = parkingProvider.checkOut;
-      });
+      if (mounted) {
+        setState(() {
+          qr = parkingProvider.checkOut;
+        });
+      }
     } else {
-      setState(() {
-        qr = null;
-      });
+      if (mounted) {
+        setState(() {
+          qr = null;
+        });
+      }
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) setState(() => isLoading = false);
   }
 
   @override
@@ -77,7 +76,7 @@ class _QRPageState extends State<QRPage> {
                 Text(
                   'Scan',
                   style: whiteTextStyle.copyWith(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: bold,
                   ),
                   textAlign: TextAlign.center,

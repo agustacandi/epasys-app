@@ -32,6 +32,8 @@ class VehicleProvider with ChangeNotifier {
         .addVehicle(idUser, nama, merek, noPolisi, motor, stnk, token);
     if (addVehicle.statusCode == 201) {
       List<VehicleModel> vehicles = await VehicleService().getVechiles(token);
+      File(motor!.path).delete();
+      File(stnk!.path).delete();
       _vehicles = vehicles;
       notifyListeners();
       return true;

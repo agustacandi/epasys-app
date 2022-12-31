@@ -113,8 +113,11 @@ class _TeknisiPageState extends State<TeknisiPage> {
                             ],
                           )
                         : (value.teknisi.isEmpty
-                            ? const Center(
-                                child: Text('Teknisi Kosong'),
+                            ? Center(
+                                child: Text(
+                                  'Teknisi Kosong',
+                                  style: blackTextStyle,
+                                ),
                               )
                             : ListView.builder(
                                 itemCount: value.teknisi.length,

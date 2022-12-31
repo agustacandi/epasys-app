@@ -17,16 +17,12 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  bool isLoading = false;
+  bool isLoading = true;
   @override
   Widget build(BuildContext context) {
     AuthProvider userProvider = Provider.of<AuthProvider>(context);
     UserModel user = userProvider.user;
     handleLogOut() async {
-      setState(() {
-        isLoading = true;
-      });
-
       if (await AuthService().logout(user.token!)) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         final String? token = prefs.getString('token');
@@ -51,9 +47,11 @@ class _AccountPageState extends State<AccountPage> {
           ),
         );
       }
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
 
     return Scaffold(
@@ -218,8 +216,12 @@ class _AccountPageState extends State<AccountPage> {
                         title: 'Tentang',
                         onPressed: () {
                           QuickAlert.show(
+                            animType: QuickAlertAnimType.slideInUp,
                             context: context,
                             type: QuickAlertType.info,
+                            title: 'Epasys App',
+                            text: 'Versi 1.0.0',
+                            barrierDismissible: false,
                           );
                         },
                       ),

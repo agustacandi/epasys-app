@@ -83,8 +83,8 @@ class ParkingModel {
     this.user,
   });
 
-  int? id, helm, isExpired, idKendaraan, idKaryawan, idUser;
-  String? nomorParkir, status;
+  int? id;
+  String? nomorParkir, status, helm, isExpired, idKendaraan, idKaryawan, idUser;
   DateTime? createdAt, updatedAt;
   Vehicle? vehicle;
   Employee? employee;
@@ -226,14 +226,13 @@ class Vehicle {
     this.noPolisi,
     this.fotoStnk,
     this.fotoKendaraan,
-    this.isUser,
     this.idUser,
     this.createdAt,
     this.updatedAt,
   });
 
-  int? id, isUser, idUser;
-  String? nama, merek, noPolisi, fotoStnk, fotoKendaraan;
+  int? id;
+  String? nama, merek, noPolisi, fotoStnk, fotoKendaraan, idUser;
   DateTime? createdAt, updatedAt;
 
   factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
@@ -243,7 +242,6 @@ class Vehicle {
         noPolisi: json["no_polisi"],
         fotoStnk: json["foto_stnk"],
         fotoKendaraan: json["foto_kendaraan"],
-        isUser: json["is_user"],
         idUser: json["id_user"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
@@ -256,7 +254,6 @@ class Vehicle {
         "no_polisi": noPolisi,
         "foto_stnk": fotoStnk,
         "foto_kendaraan": fotoKendaraan,
-        "is_user": isUser,
         "id_user": idUser,
         "created_at": createdAt!.toString(),
         "updated_at": updatedAt!.toString(),

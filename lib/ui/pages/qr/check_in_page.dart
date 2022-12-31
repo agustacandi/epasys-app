@@ -158,8 +158,10 @@ class _CheckInPageState extends State<CheckInPage> {
           onConfirmBtnTap: () {
             Navigator.pop(context);
             Navigator.pop(context);
+            Navigator.pop(context);
             _screenOpened = false;
           },
+          barrierDismissible: false,
         );
       } else {
         QuickAlert.show(
@@ -171,6 +173,7 @@ class _CheckInPageState extends State<CheckInPage> {
             Navigator.pop(context);
             _screenOpened = false;
           },
+          barrierDismissible: false,
         );
       }
       // Navigator.push(

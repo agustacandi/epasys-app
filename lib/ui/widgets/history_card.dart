@@ -17,68 +17,64 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
+        margin: const EdgeInsets.only(
+          bottom: 16,
+        ),
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+          border: Border.all(
+            color: greyColor2,
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              parking.status == 'OUT'
+                  ? 'assets/images/img_checkout.png'
+                  : 'assets/images/img_checkin.png',
+              width: 50,
             ),
-            margin: const EdgeInsets.only(
-              bottom: 16,
+            const SizedBox(
+              width: 20,
             ),
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              border: Border.all(
-                color: greyColor2,
-              ),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  parking.status == 'OUT'
-                      ? 'assets/images/img_checkout.png'
-                      : 'assets/images/img_checkin.png',
-                  width: 50,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      parking.vehicle!.nama!,
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: bold,
-                      ),
-                    ),
-                    Text(
-                      '${parking.vehicle!.merek} - ${parking.vehicle!.noPolisi}',
-                      style: greyTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: semiBold,
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
                 Text(
-                  Functions().convertDateTime3(parking.createdAt!),
+                  parking.vehicle!.nama!,
                   style: blackTextStyle.copyWith(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: bold,
+                  ),
+                ),
+                Text(
+                  '${parking.vehicle!.merek} - ${parking.vehicle!.noPolisi}',
+                  style: greyTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: semiBold,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            const Spacer(),
+            Text(
+              Functions().convertDateTime3(parking.createdAt!),
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+                fontWeight: bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

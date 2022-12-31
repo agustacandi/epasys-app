@@ -36,9 +36,6 @@ class _SplashPageState extends State<SplashPage> {
         await Provider.of<AuthProvider>(context, listen: false)
             .getCurrentUser(token!);
         if (!mounted) return;
-        await Provider.of<ParkingProvider>(context, listen: false)
-            .getLatestParkings(token);
-        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/main',

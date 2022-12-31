@@ -25,6 +25,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   File? _stnk;
   File? _motor;
   final _imageHelper = ImageHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +114,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 onTap: () async {
                                   final files = await _imageHelper.pickImage(
                                     source: ImageSource.camera,
-                                    imageQuality: 50,
+                                    imageQuality: 30,
                                   );
                                   if (files.isNotEmpty) {
                                     final croppedFile = await _imageHelper.crop(
@@ -135,7 +136,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               ListTile(
                                 onTap: () async {
                                   final files = await _imageHelper.pickImage(
-                                    imageQuality: 50,
+                                    imageQuality: 30,
                                   );
                                   if (files.isNotEmpty) {
                                     final croppedFile = await _imageHelper.crop(
@@ -232,7 +233,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 onTap: () async {
                                   final files = await _imageHelper.pickImage(
                                     source: ImageSource.camera,
-                                    imageQuality: 50,
+                                    imageQuality: 30,
                                   );
                                   if (files.isNotEmpty) {
                                     final croppedFile = await _imageHelper.crop(
@@ -242,7 +243,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
                                     if (croppedFile != null) {
                                       setState(() {
-                                        _motor = File(croppedFile.path);
+                                        _stnk = File(croppedFile.path);
                                       });
                                     }
                                   }
@@ -254,7 +255,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               ListTile(
                                 onTap: () async {
                                   final files = await _imageHelper.pickImage(
-                                    imageQuality: 50,
+                                    imageQuality: 30,
                                   );
                                   if (files.isNotEmpty) {
                                     final croppedFile = await _imageHelper.crop(
@@ -264,7 +265,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
                                     if (croppedFile != null) {
                                       setState(() {
-                                        _motor = File(croppedFile.path);
+                                        _stnk = File(croppedFile.path);
                                       });
                                     }
                                   }

@@ -55,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         children: [
           Text(
-            'Register',
+            'Daftar Akun Baru',
             style: blackTextStyle.copyWith(
               fontSize: 24,
               fontWeight: bold,
@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 2,
           ),
           Text(
-            'Sign up to create new account',
+            'Silahkan daftar untuk membuat akun baru',
             style: greyTextStyle.copyWith(
               fontSize: 16,
               fontWeight: semiBold,
@@ -136,7 +136,7 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         children: [
           CustomFormField(
-            hintText: 'Full Name',
+            hintText: 'Nama Lengkap',
             controller: nameController,
             icon: Icons.person,
           ),
@@ -152,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 16,
           ),
           CustomFormField(
-            hintText: 'Date of Birth',
+            hintText: 'Tanggal Lahir',
             controller: dateController,
             icon: Icons.calendar_month,
             useSuffixIcon: true,
@@ -177,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 16,
           ),
           CustomFormField(
-            hintText: 'Address',
+            hintText: 'Alamat',
             controller: addressController,
             icon: Icons.navigation,
           ),
@@ -185,7 +185,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 16,
           ),
           CustomFormField(
-            hintText: 'Phone Number (+628XXX)',
+            hintText: 'No Telepon (+628XXX)',
             controller: phoneNumberController,
             icon: Icons.phone,
           ),
@@ -193,7 +193,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 16,
           ),
           CustomFormField(
-            hintText: 'Email Address',
+            hintText: 'Email',
             controller: emailController,
             icon: Icons.email,
           ),
@@ -218,7 +218,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 16,
           ),
           CustomFormField(
-            hintText: 'Confirm Password',
+            hintText: 'Konfirmasi Password',
             obscureText: obscureText2,
             controller: passwordConfirmationController,
             icon: Icons.password,
@@ -237,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
           isLoading
               ? const LoadingButton()
               : CustomButton(
-                  title: 'Sign Up',
+                  title: 'Daftar',
                   width: double.infinity,
                   color: blueColor,
                   onPressed: handleSignUp,
@@ -250,7 +250,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Navigator.pop(context);
             },
             child: Text(
-              'Back to Log In',
+              'Kembali ke halaman login',
               style: greyTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: semiBold,
