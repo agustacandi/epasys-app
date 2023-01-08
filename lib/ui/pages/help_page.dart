@@ -88,7 +88,7 @@ class _HelpPageState extends State<HelpPage> {
                   ],
                 )
               ],
-            ),
+                         ),
             const SizedBox(
               height: 16,
             ),
