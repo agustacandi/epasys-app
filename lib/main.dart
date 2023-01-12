@@ -22,8 +22,6 @@ import 'package:epasys_app/ui/pages/splash_page.dart';
 import 'package:epasys_app/ui/pages/home/teknisi_page.dart';
 import 'package:epasys_app/ui/pages/upload_avatar_page.dart';
 import 'package:epasys_app/ui/pages/vehicle/add_vehicle_page.dart';
-import 'package:epasys_app/ui/pages/vehicle/detail_vehicle_page.dart';
-import 'package:epasys_app/ui/pages/vehicle/edit_vehicle_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';

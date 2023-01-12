@@ -57,7 +57,7 @@ class Card extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Skeleton(
+          const Skeleton(
             width: 50,
             height: 50,
             borderRadius: 50,
@@ -67,13 +67,13 @@ class Card extends StatelessWidget {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               Skeleton(
                 width: 100,
                 height: 10,
                 borderRadius: 10,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 5,
               ),
               Skeleton(
@@ -84,7 +84,7 @@ class Card extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          Skeleton(
+          const Skeleton(
             width: 50,
             height: 10,
             borderRadius: 10,

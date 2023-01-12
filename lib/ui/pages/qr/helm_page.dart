@@ -3,9 +3,9 @@ import 'package:epasys_app/providers/check_in_provider.dart';
 import 'package:epasys_app/providers/vehicle_provider.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:epasys_app/ui/widgets/buttons.dart';
-import 'package:epasys_app/ui/widgets/vehicle_card_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 class HelmPage extends StatefulWidget {
   const HelmPage({super.key});
@@ -15,6 +15,23 @@ class HelmPage extends StatefulWidget {
 }
 
 class _HelmPageState extends State<HelmPage> {
+  validation() async {
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+
+    if (authProvider.user.avatar == null) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Anda belum melengkapi data diri',
+        onConfirmBtnTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

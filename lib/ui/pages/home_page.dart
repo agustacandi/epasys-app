@@ -7,7 +7,6 @@ import 'package:epasys_app/ui/pages/home_shimmer.dart';
 import 'package:epasys_app/ui/widgets/history_card.dart';
 import 'package:epasys_app/ui/widgets/home_menu_item.dart';
 import 'package:epasys_app/ui/widgets/home_spotlight_item.dart';
-import 'package:epasys_app/ui/widgets/home_transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

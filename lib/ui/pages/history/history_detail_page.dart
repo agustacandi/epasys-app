@@ -1,6 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:epasys_app/models/parking_model.dart';
-import 'package:epasys_app/shared/functions.dart';
 import 'package:epasys_app/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

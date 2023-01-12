@@ -48,7 +48,7 @@ class _BottomBarState extends State<BottomBar> {
           showSelectedLabels: false,
           showUnselectedLabels: false,
           selectedItemColor: Colors.blue,
-          unselectedItemColor: Color(0xff526480),
+          unselectedItemColor: const Color(0xff526480),
           items: [
             BottomNavigationBarItem(
               icon: Image.asset(
